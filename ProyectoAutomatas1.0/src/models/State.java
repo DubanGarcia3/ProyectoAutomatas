@@ -5,8 +5,6 @@ public class State {
 	private boolean isAccept;
 	private String name;
 	
-	
-	
 	public State(boolean isAccept, String name) {
 		super();
 		this.isAccept = isAccept;
@@ -26,8 +24,11 @@ public class State {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
+
+
+	@Override
+	public String toString() {
+		return "Estado " + name ;
+	}
 
 }

@@ -83,8 +83,11 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener{
 		
 		this.add(panelStatesAcceptable);
 		
-		jTextPaneFuncionsTransitions = new JTextPane();
-		jTextPaneFuncionsTransitions.setEditable(false);
+		JPanel jPanelFuncions = new JPanel(new BorderLayout());
+		JLabel lbFuncionsTransitions = new JLabel("Ingresa las funciones de transicion");
+			
+//		JPanel	jPanelFuncionsTransitions = new JPanel(new GridLayout)
+			
 		this.add(jTextPaneFuncionsTransitions);
 		
 		btnAccept = new JButton("Aceptar");
