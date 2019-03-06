@@ -35,8 +35,8 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lbTitleDialog;
-	private JTextField jtextAlphabet;
-	private JTextField jTextStateList;
+	private MyJTextField jtextAlphabet;
+	private MyJTextField jTextStateList;
 	private JComboBox<State> jComboBoxInitialState;
 	private JButton btnAccept;
 	private JPanel panelCheckBox;
@@ -62,17 +62,13 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		this.add(lbTitleDialog);
 		
 		JPanel panelAlphabet = new JPanel(new GridLayout(1,2));
-		JLabel lbAlphabet = new JLabel("Ingrese el Alfabeto separado por comas, ejemplo(a,b,c) ");
-		jtextAlphabet = new JTextField();
-		panelAlphabet.add(lbAlphabet);
+		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo(a,b,c)");
 		panelAlphabet.add(jtextAlphabet);
 		this.add(panelAlphabet);
 		
 		JPanel panelStateList = new JPanel(new GridLayout(1,2));
-		JLabel lbStateList = new JLabel("Ingrese los estados separados por comas, ejemplo(q0,q1,q2) ");
-		jTextStateList = new JTextField();
+		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo(q0,q1,q2) ");
 		jTextStateList.addKeyListener(this);
-		panelStateList.add(lbStateList);
 		panelStateList.add(jTextStateList);
 		this.add(panelStateList);
 		
