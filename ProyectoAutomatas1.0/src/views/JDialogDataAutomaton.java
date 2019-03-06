@@ -2,9 +2,12 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,13 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import controller.ActionCommand;
 import controller.Controller;
 import models.State;
 
-public class JDialogDataAutomaton extends JDialog implements KeyListener{
+public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseListener{
 
 	/**
 	 * 
@@ -32,16 +34,18 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener{
 	private JTextField jtextAlphabet;
 	private JTextField jTextStateList;
 	private JComboBox<State> jComboBoxInitialState;
-	private JTextPane jTextPaneFuncionsTransitions;
 	private JButton btnAccept;
-
 	private JPanel panelCheckBox;
+	private JPanel jPanelFuncionsTransitions;
+	private JButton btnAddNewFuncion;
+	
+	private int indexFuncion = -1;
 	
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
 		this.setBackground(new Color(217, 227, 229));
 		this.setLayout(new GridLayout(7, 1, 10, 10));
-		this.setSize(600, 500);
+		this.setSize(500, 700);
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
 		init();	
@@ -85,10 +89,18 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener{
 		
 		JPanel jPanelFuncions = new JPanel(new BorderLayout());
 		JLabel lbFuncionsTransitions = new JLabel("Ingresa las funciones de transicion");
-			
-//		JPanel	jPanelFuncionsTransitions = new JPanel(new GridLayout)
-			
-		this.add(jTextPaneFuncionsTransitions);
+		jPanelFuncionsTransitions = new JPanel(new GridLayout(1,1,5,5));
+		
+		btnAddNewFuncion = new JButton("Nueva Funcion");
+		btnAddNewFuncion.setName("NewFuncion");
+		btnAddNewFuncion.addMouseListener(this);
+		btnAddNewFuncion.setEnabled(false);
+		
+		jPanelFuncions.add(btnAddNewFuncion,BorderLayout.LINE_END);
+		jPanelFuncions.add(lbFuncionsTransitions,BorderLayout.PAGE_START);
+		jPanelFuncions.add(jPanelFuncionsTransitions,BorderLayout.CENTER);
+		JScrollPane paneFuncions = new 		JScrollPane(jPanelFuncions,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,jScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		this.add(paneFuncions);
 		
 		btnAccept = new JButton("Aceptar");
 		btnAccept.addActionListener(Controller.getInstance());
@@ -107,16 +119,58 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener{
 		if (jTextStateList.isFocusable()) {
 			switch (event.getKeyChar()) {
 			case ';':
+				String[] alphabet = getAlphabetList(jtextAlphabet.getText());
 				State[] states = getStatesList(jTextStateList.getText());
 //				jTextStateList.setFocusable(false);
 				DefaultComboBoxModel<State> boxModel = new DefaultComboBoxModel<State>(states);
 				jComboBoxInitialState.setEnabled(true);
 				jComboBoxInitialState.setModel(boxModel);
 				createCheckBoxAcceptable(states);
-				jTextPaneFuncionsTransitions.setEditable(true);
+				createFuncionsTransition(alphabet,states);
+				btnAddNewFuncion.setEnabled(true);
 			break;
 			}
 		}
+	}
+
+	private void createFuncionsTransition(String[] alphabet, State[] states) {
+		indexFuncion++;
+		JPanel panel = new JPanel(new GridLayout(1,7));
+		panel.setName("Panel" + indexFuncion);
+		JLabel lbF = new JLabel("F(",JLabel.CENTER);
+		panel.add(lbF);
+		DefaultComboBoxModel<State> stateModel = new DefaultComboBoxModel<State>(states);
+		JComboBox<State> from = new JComboBox<State>(stateModel);
+		panel.add(from);
+		JLabel lbcoma = new JLabel(" , ",JLabel.CENTER);
+		panel.add(lbcoma);
+		DefaultComboBoxModel<String> alphabetModel = new DefaultComboBoxModel<String>(alphabet);
+		JComboBox<String> character = new JComboBox<String>(alphabetModel);
+		panel.add(character);
+		JLabel lbFinFuncion = new JLabel(" ) =" ,JLabel.CENTER);
+		panel.add(lbFinFuncion);
+		JComboBox<State> to = new JComboBox<State>(stateModel);
+		to.addMouseListener(this);
+		panel.add(to);
+		GridLayout gridLayout = (GridLayout) jPanelFuncionsTransitions.getLayout();
+		gridLayout.setRows(gridLayout.getRows()+1);
+		
+		if (indexFuncion > 0) {
+			JButton btnRemoveFuncion = new JButton("Eliminar");
+			btnRemoveFuncion.setName("btn"+indexFuncion);
+			btnRemoveFuncion.addMouseListener(this);
+			panel.add(btnRemoveFuncion);
+			
+		}
+		
+		jPanelFuncionsTransitions.add(panel);
+		jPanelFuncionsTransitions.repaint();
+		jPanelFuncionsTransitions.revalidate();
+	}
+
+	private String[] getAlphabetList(String text) {
+		String[] alphabet = text.replaceAll(";","").split(",");
+		return alphabet;
 	}
 
 	private void createCheckBoxAcceptable(State[] states) {
@@ -140,6 +194,56 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent event) {
+		if (event.getComponent().getName().contains("btn")) {
+			removeFuncion(Integer.parseInt(event.getComponent().getName().replaceAll("btn", "")));
+		}
+		if (event.getComponent().getName().equals("NewFuncion")) {
+			String[] alphabet = getAlphabetList(jtextAlphabet.getText());
+			State[] states = getStatesList(jTextStateList.getText());
+			createFuncionsTransition(alphabet, states);
+		}
+	}
+
+	private void removeFuncion(int parseInt) {
+		Component[] components = jPanelFuncionsTransitions.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			if (parseInt == Integer.parseInt(components[i].getName().replace("Panel", ""))) {
+				jPanelFuncionsTransitions.remove(i);
+				GridLayout gridLayout = (GridLayout) jPanelFuncionsTransitions.getLayout();
+				gridLayout.setRows(gridLayout.getRows()-1);
+				jPanelFuncionsTransitions.repaint();
+			}
+		}
+		
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
