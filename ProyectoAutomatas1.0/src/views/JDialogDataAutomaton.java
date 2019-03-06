@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,7 +23,9 @@ import javax.swing.JTextField;
 
 import controller.ActionCommand;
 import controller.Controller;
+import models.Automaton;
 import models.State;
+import models.Transition;
 
 public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseListener{
 
@@ -40,6 +44,8 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	private JButton btnAddNewFuncion;
 	
 	private int indexFuncion = -1;
+
+	private Component[] components;
 	
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
@@ -119,7 +125,7 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		if (jTextStateList.isFocusable()) {
 			switch (event.getKeyChar()) {
 			case ';':
-				String[] alphabet = getAlphabetList(jtextAlphabet.getText());
+				Character[] alphabet = getAlphabetList(jtextAlphabet.getText());
 				State[] states = getStatesList(jTextStateList.getText());
 //				jTextStateList.setFocusable(false);
 				DefaultComboBoxModel<State> boxModel = new DefaultComboBoxModel<State>(states);
@@ -133,23 +139,27 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		}
 	}
 
-	private void createFuncionsTransition(String[] alphabet, State[] states) {
+	private void createFuncionsTransition(Character[] alphabet, State[] states) {
 		indexFuncion++;
 		JPanel panel = new JPanel(new GridLayout(1,7));
 		panel.setName("Panel" + indexFuncion);
 		JLabel lbF = new JLabel("F(",JLabel.CENTER);
 		panel.add(lbF);
-		DefaultComboBoxModel<State> stateModel = new DefaultComboBoxModel<State>(states);
-		JComboBox<State> from = new JComboBox<State>(stateModel);
+		DefaultComboBoxModel<State> stateModelFrom = new DefaultComboBoxModel<State>(states);
+		JComboBox<State> from = new JComboBox<State>(stateModelFrom);
+		from.setName("from");
 		panel.add(from);
 		JLabel lbcoma = new JLabel(" , ",JLabel.CENTER);
 		panel.add(lbcoma);
-		DefaultComboBoxModel<String> alphabetModel = new DefaultComboBoxModel<String>(alphabet);
-		JComboBox<String> character = new JComboBox<String>(alphabetModel);
+		DefaultComboBoxModel<Character > alphabetModel = new DefaultComboBoxModel<Character>(alphabet);
+		JComboBox<Character> character = new JComboBox<Character>(alphabetModel);
+		character.setName("character");
 		panel.add(character);
 		JLabel lbFinFuncion = new JLabel(" ) =" ,JLabel.CENTER);
 		panel.add(lbFinFuncion);
-		JComboBox<State> to = new JComboBox<State>(stateModel);
+		DefaultComboBoxModel<State> stateModelTo = new DefaultComboBoxModel<State>(states);
+		JComboBox<State> to = new JComboBox<State>(stateModelTo);
+		to.setName("to");
 		to.addMouseListener(this);
 		panel.add(to);
 		GridLayout gridLayout = (GridLayout) jPanelFuncionsTransitions.getLayout();
@@ -160,7 +170,6 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 			btnRemoveFuncion.setName("btn"+indexFuncion);
 			btnRemoveFuncion.addMouseListener(this);
 			panel.add(btnRemoveFuncion);
-			
 		}
 		
 		jPanelFuncionsTransitions.add(panel);
@@ -168,16 +177,24 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		jPanelFuncionsTransitions.revalidate();
 	}
 
-	private String[] getAlphabetList(String text) {
+	private Character[] getAlphabetList(String text) {
+		
 		String[] alphabet = text.replaceAll(";","").split(",");
-		return alphabet;
+		Character[] alphabetList = new Character[alphabet.length];
+		for (int i = 0; i < alphabet.length; i++) {
+			alphabetList[i] = (Character) alphabet[i].charAt(0);
+		}
+		return alphabetList;
 	}
 
 	private void createCheckBoxAcceptable(State[] states) {
 		panelCheckBox.removeAll();
 		panelCheckBox.setLayout(new GridLayout(states.length/4,4));
 		for (State state : states) {
-			panelCheckBox.add(new JCheckBox(state.toString()));
+			JCheckBox checkBox = new JCheckBox(state.toString());
+			checkBox.setName(state.getName());
+			checkBox.addMouseListener(this);
+			panelCheckBox.add(checkBox);
 			repaint();
 		}
 	}
@@ -204,10 +221,16 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 			removeFuncion(Integer.parseInt(event.getComponent().getName().replaceAll("btn", "")));
 		}
 		if (event.getComponent().getName().equals("NewFuncion")) {
-			String[] alphabet = getAlphabetList(jtextAlphabet.getText());
+			Character[] alphabet = getAlphabetList(jtextAlphabet.getText());
 			State[] states = getStatesList(jTextStateList.getText());
 			createFuncionsTransition(alphabet, states);
 		}
+		if (!getFinalStates().isEmpty()) {
+			btnAccept.setEnabled(true);
+		}else {
+			btnAccept.setEnabled(false);
+		}
+		
 	}
 
 	private void removeFuncion(int parseInt) {
@@ -239,6 +262,11 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		if (!getFinalStates().isEmpty()) {
+			btnAccept.setEnabled(true);
+		}else {
+			btnAccept.setEnabled(false);
+		}
 		
 	}
 
@@ -248,6 +276,69 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		
 	}
 	
+	public ArrayList<State> getFinalStates(){
+		State[] states = getStatesList(jTextStateList.getText());
+		ArrayList<State> statesAccepted = new ArrayList<State>();
+		for (int i = 0; i < states.length; i++) {
+			JCheckBox box = (JCheckBox) panelCheckBox.getComponents()[i];
+			if (box.isSelected()) {
+				states[i].setAccept(true);
+				statesAccepted.add(states[i]);
+			}
+		}
+		return statesAccepted;
+	}
 	
 	
+	private ArrayList<Transition> getTransitionList() {
+		ArrayList<Transition> transitionList = new ArrayList<Transition>();
+		Component[] components = jPanelFuncionsTransitions.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			JPanel panel = (JPanel) components[i];
+			getTransition(panel);
+		}
+		return transitionList;
+	}
+
+	private Transition getTransition(JPanel panel) {
+		State fromState = new State(false, "")  ;
+		Character characterTransition = ' ' ;
+		State toState = new State(false, "")  ;
+		Component[] components = panel.getComponents();
+		
+		for (int i = 0; i < components.length; i++) {
+			if (components[i] != null && components[i].getName() != null) {
+				if (components[i].getName().equalsIgnoreCase("from")) {
+					JComboBox<State> from =  (JComboBox<State>) components[i];
+					 fromState = (State) from.getSelectedItem();
+				}
+				if (components[i].getName().equalsIgnoreCase("character")) {
+					JComboBox<String> character =  (JComboBox<String>) components[i];
+					 characterTransition = (Character) character.getSelectedItem();
+				}
+				if (components[i].getName().equalsIgnoreCase("to")) {
+					JComboBox<State> to =  (JComboBox<State>) components[i];
+					toState = (State) to.getSelectedItem();
+				}
+			}
+			
+		}
+	
+		return new Transition(fromState, toState, characterTransition);
+	}
+	
+	
+	public Automaton getAutomaton() {
+		ArrayList<State> states = new ArrayList<State>(Arrays.asList(getStatesList(jTextStateList.getText())));
+		ArrayList<Character> alphabet = new ArrayList<Character>(Arrays.asList(getAlphabetList(jtextAlphabet.getText())));
+		Automaton automaton = new Automaton(states, 
+				(State) jComboBoxInitialState.getSelectedItem(),
+				getFinalStates(),
+				getTransitionList(),
+				alphabet,
+				new String[1][1]); 
+		System.out.println(automaton.toString());
+		return automaton;
+	}
+
 }

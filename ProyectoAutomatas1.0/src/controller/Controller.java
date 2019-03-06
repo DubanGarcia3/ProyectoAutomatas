@@ -33,12 +33,20 @@ public class Controller implements ActionListener{
 		case SHOW_WINDOW_DRAWING:
 			
 			break;
+		case ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS:
+			addAutomatonByFuntionsTransitions();
+			break;
 		default:
 			break;
+		
 		}
 	}
 
 	
+	private void addAutomatonByFuntionsTransitions() {
+		jFrameMainWindow.getAutomaton();
+	}
+
 	public void initApp() {
 		jFrameMainWindow.setVisibleJDialogInitial(true);
 	}

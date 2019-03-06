@@ -144,6 +144,9 @@ public class Automaton {
 		this.transitionTable = transitionTable;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Automaton [stateList=" + stateList + ", initialState=" + initialState + ", finalState=" + finalState
+				+ ", alphabet=" + alphabet + "]";
+	}	
 }

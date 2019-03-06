@@ -3,6 +3,8 @@ package views;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
+import models.Automaton;
+
 
 public class JFrameMainWindow extends JFrame{
 
@@ -40,5 +42,9 @@ public class JFrameMainWindow extends JFrame{
 
 	public void setVisibleJDialogInitial(boolean b) {
 		jDialogInitial.setVisible(b);
+	}
+	
+	public Automaton getAutomaton() {
+		return jDialogDataAutomaton.getAutomaton();
 	}
 }
