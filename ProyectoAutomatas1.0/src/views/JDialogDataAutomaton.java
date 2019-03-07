@@ -106,6 +106,7 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		btnAddNewFuncion.setFont(font);
 		btnAddNewFuncion.addMouseListener(this);
 		btnAddNewFuncion.setEnabled(false);
+		btnAddNewFuncion.setFont(font);
 		
 		jPanelFuncions.add(btnAddNewFuncion,BorderLayout.LINE_END);
 		jPanelFuncions.add(lbFuncionsTransitions,BorderLayout.PAGE_START);
@@ -119,6 +120,7 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		btnAccept.setFont(font);
 		btnAccept.addActionListener(Controller.getInstance());
 		btnAccept.setEnabled(false);
+		btnAccept.setFont(font);
 		btnAccept.setActionCommand(ActionCommand.ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS.name());
 		jPanelBtn.add(btnAccept);
 		jPanelBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
