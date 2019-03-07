@@ -1,7 +1,6 @@
 package test;
 
 import views.JDialogDataAutomaton;
-import views.JDialogInitial;
 import views.JFrameMainWindow;
 
 public class TestViews {
