@@ -1,7 +1,12 @@
 package views;
 
+import java.awt.BorderLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 
 import models.Automaton;
 
@@ -11,6 +16,7 @@ public class JFrameMainWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JDialogDataAutomaton jDialogDataAutomaton;
 	private JDialogInitial jDialogInitial;
+	private JPanel panelAutomatonDraw ;
 	
 	public JFrameMainWindow() {
 		this.setTitle("Automatas");
@@ -25,13 +31,12 @@ public class JFrameMainWindow extends JFrame{
 	private void initComponents() {
 		JMenuBar jMenuBar = new JMenuBar();
 		
+		panelAutomatonDraw = new JPanel(new BorderLayout());
+		
 		
 		add(jMenuBar);
-//		jTreePerson = new JTreePerson();
-//		jToolBarOptions = new JToolBarOptions();
-//		this.add(jToolBarOptions, BorderLayout.NORTH);
-//		this.add(jTreePerson,BorderLayout.CENTER);
-		
+
+		this.add(panelAutomatonDraw);
 		jDialogDataAutomaton = new JDialogDataAutomaton(this);
 		jDialogInitial = new JDialogInitial(this);
 	}
@@ -46,5 +51,11 @@ public class JFrameMainWindow extends JFrame{
 	
 	public Automaton getAutomaton() {
 		return jDialogDataAutomaton.getAutomaton();
+	}
+	
+	public void setAutomaton() {
+		JLabel label = new JLabel(new ImageIcon("grafo1.jpg"));
+		panelAutomatonDraw.add(label);
+		revalidate();
 	}
 }

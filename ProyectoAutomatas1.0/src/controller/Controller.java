@@ -3,13 +3,15 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import views.DrawingAutomaton;
 import views.JFrameMainWindow;
 
 public class Controller implements ActionListener{
 
 	public static Controller controller = null;
 	public JFrameMainWindow jFrameMainWindow;
-
+	public DrawingAutomaton drawingAutomaton = new DrawingAutomaton();
+	
 	private Controller() {
 		
 	}
@@ -25,7 +27,7 @@ public class Controller implements ActionListener{
 	public void actionPerformed(ActionEvent actionEvent) {
 		switch (ActionCommand.valueOf(actionEvent.getActionCommand())) {
 		case SHOW_DIALOG_ADD_TRANSITION_FUNCION:
-			jFrameMainWindow.setVisibleJDialogDataAutomaton(true);
+			showDialogAddTransitionFuncion();
 			break;
 		case SHOW_DIALOG_ADD_TRANSITION_TABLE:
 			//No se hará esta funcion
@@ -43,8 +45,18 @@ public class Controller implements ActionListener{
 	}
 
 	
+	private void showDialogAddTransitionFuncion() {
+		jFrameMainWindow.setVisibleJDialogDataAutomaton(true);
+		jFrameMainWindow.setVisibleJDialogInitial(false);
+	}
+
 	private void addAutomatonByFuntionsTransitions() {
-		jFrameMainWindow.getAutomaton();
+		drawingAutomaton.createCodigoDrawing(jFrameMainWindow.getAutomaton());
+		drawingAutomaton.generar();
+		jFrameMainWindow.setAutomaton();
+		jFrameMainWindow.setVisible(true);
+		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
+		
 	}
 
 	public void initApp() {
