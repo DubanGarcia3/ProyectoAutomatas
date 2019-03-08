@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ public class JFrameMainWindow extends JFrame{
 	private JDialogDataAutomaton jDialogDataAutomaton;
 	private JDialogInitial jDialogInitial;
 	private JPanel panelAutomatonDraw ;
+	private JPanelTable panelTable;
 
 	
 	public JFrameMainWindow() {
@@ -31,6 +33,7 @@ public class JFrameMainWindow extends JFrame{
 //		this.setIconImage(new ImageIcon("src/img/logo.png").getImage());
 		this.setLocationRelativeTo(null);
 		initComponents();
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	private void initComponents() {
@@ -50,10 +53,18 @@ public class JFrameMainWindow extends JFrame{
 		
 		this.add(jToolBar, BorderLayout.PAGE_START);
 		
+		JPanel panelCenter = new JPanel(new BorderLayout());
+		
+		panelTable = new JPanelTable();
+		panelCenter.add(panelTable,BorderLayout.LINE_START);
+		
+		
 		panelAutomatonDraw = new JPanel(new BorderLayout());
-		add(jMenuBar);
-
-		this.add(panelAutomatonDraw);
+		panelAutomatonDraw.setBackground(Color.WHITE);
+		panelCenter.add(panelAutomatonDraw,BorderLayout.CENTER);
+		
+		this.add(panelCenter,BorderLayout.CENTER);
+		
 		jDialogDataAutomaton = new JDialogDataAutomaton(this);
 		jDialogInitial = new JDialogInitial(this);
 	}
@@ -75,4 +86,10 @@ public class JFrameMainWindow extends JFrame{
 		panelAutomatonDraw.add(label);
 		revalidate();
 	}
+	 
+//	public void update(String[][] matriz) {
+//		panelTable.updateTable(matriz);
+//		repaint();
+//	}
+	
 }

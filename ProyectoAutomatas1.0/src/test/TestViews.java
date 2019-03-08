@@ -1,19 +1,20 @@
 package test;
 
 
+import views.JDialogDataAutomaton;
 import views.JFrameMainWindow;
 
 public class TestViews {
 	
 	public static void main(String[] args) {
 		JFrameMainWindow frameMainWindow = new JFrameMainWindow();
-		frameMainWindow.setVisible(true);
+//		frameMainWindow.setVisible(true);
 //		DrawingAutomaton drawing = new DrawingAutomaton();
 //		JDialogInitial dialogInitial = new JDialogInitial(frameMainWindow);
 //		dialogInitial.setVisible(true);
 		
-//		JDialogDataAutomaton dataAutomaton = new JDialogDataAutomaton(frameMainWindow);
-//		dataAutomaton.setVisible(true);
+		JDialogDataAutomaton dataAutomaton = new JDialogDataAutomaton(frameMainWindow);
+		dataAutomaton.setVisible(true);
 ///	dataAutomaton.getAutomaton();
 //		State state0 = new State(false, "q0");
 //		State state1 = new State(false, "q1");

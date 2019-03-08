@@ -42,7 +42,7 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	private JButton btnAccept;
 	private JPanel panelCheckBox;
 	private JPanel jPanelFuncionsTransitions;
-	private JButton btnAddNewFuncion;
+	private JButton btnAddNewFuncion, jButtonContinue;
 	
 	private int indexFuncion = -1;
 	
@@ -53,28 +53,39 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		this.setSize(500, 700);
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
+		this.setBackground(Color.WHITE);
 		init();	
 	}
 
 	private void init() {
+		
 		Font font = new Font("Century Gothic", 1, 14);
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
-		lbTitleDialog.setFont(new Font("Century Gothic", 1, 20));
+		lbTitleDialog.setFont(font);
 		this.add(lbTitleDialog);
-		
 		
 		JPanel panelAlphabet = new JPanel(new GridLayout(1,2));
 		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo: a,b,c");
+		jtextAlphabet.setFont(font);
 		panelAlphabet.add(jtextAlphabet);
 		panelAlphabet.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		panelAlphabet.setBackground(Color.WHITE);
 		this.add(panelAlphabet);
 		
 		JPanel panelStateList = new JPanel(new GridLayout(1,2));
 		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo: q0,q1,q2;");
+		jButtonContinue = new JButton("Confirmar v");
+		jButtonContinue.setBackground(Color.decode("#F5B29B"));
+		jButtonContinue.addActionListener(Controller.getInstance());
+		jButtonContinue.setActionCommand(ActionCommand.CHARGE_STATES.name());
 		jTextStateList.addKeyListener(this);
+		jTextStateList.setFont(font);
 		panelStateList.add(jTextStateList);
+		panelStateList.add(jButtonContinue);
 		panelStateList.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		panelStateList.setBackground(Color.WHITE);
 		this.add(panelStateList);
+		
 		
 		JPanel panelInitialState = new JPanel(new GridLayout(1,2));
 		JLabel lbInitialState = new JLabel("Selecciona el estado inicial");

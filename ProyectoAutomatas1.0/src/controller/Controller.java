@@ -61,8 +61,15 @@ public class Controller implements ActionListener{
 		automaton = jFrameMainWindow.getAutomaton();
 		drawingAutomaton.createCodigoDrawing(automaton);
 		drawingAutomaton.generar();
-		jFrameMainWindow.setAutomaton();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		jFrameMainWindow.setVisible(true);
+		jFrameMainWindow.setAutomaton();
+//		jFrameMainWindow.update(automaton.generateTransitionsTable());
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
 	}
 
