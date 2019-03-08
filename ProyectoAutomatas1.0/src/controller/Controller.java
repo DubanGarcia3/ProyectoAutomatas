@@ -25,7 +25,7 @@ public class Controller implements ActionListener{
 	public void actionPerformed(ActionEvent actionEvent) {
 		switch (ActionCommand.valueOf(actionEvent.getActionCommand())) {
 		case SHOW_DIALOG_ADD_TRANSITION_FUNCION:
-			showDialogAddTransitionFuncion();
+			jFrameMainWindow.setVisibleJDialogDataAutomaton(true);
 			break;
 		case SHOW_DIALOG_ADD_TRANSITION_TABLE:
 			//No se hará esta funcion
@@ -43,14 +43,7 @@ public class Controller implements ActionListener{
 	}
 
 	
-	private void showDialogAddTransitionFuncion() {
-		jFrameMainWindow.setVisibleJDialogDataAutomaton(true);
-		jFrameMainWindow.setVisibleJDialogInitial(false);
-	}
-
 	private void addAutomatonByFuntionsTransitions() {
-		jFrameMainWindow.setVisible(true);
-		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
 		jFrameMainWindow.getAutomaton();
 	}
 
