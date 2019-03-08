@@ -50,10 +50,7 @@ public class JFrameMainWindow extends JFrame{
 		
 		this.add(jToolBar, BorderLayout.PAGE_START);
 		
-		
 		panelAutomatonDraw = new JPanel(new BorderLayout());
-		
-		
 		add(jMenuBar);
 
 		this.add(panelAutomatonDraw);

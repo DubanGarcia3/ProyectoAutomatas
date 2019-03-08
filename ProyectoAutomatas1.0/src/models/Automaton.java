@@ -22,8 +22,8 @@ public class Automaton {
 		this.alphabet = alphabet;
 		this.transitionTable= transitionTable;
 	}
-	
-	
+
+
 
 	public Automaton(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,
 			ArrayList<Transition> transitionList, ArrayList<Character> alphabet) {
@@ -62,11 +62,11 @@ public class Automaton {
 			transitionTable[i][0] = name;	
 		}
 		for (int i = 1, j=0; i < alphabet.size()+1 ; i++,j++) {
-				transitionTable[0][i] = ""+alphabet.get(j);
+			transitionTable[0][i] = ""+alphabet.get(j);
 		}
 		return transitionTable;
 	}
-	
+
 	public void setHeadersTransitionTable(){
 		int count = 1;
 		for (State state : stateList) {
@@ -182,7 +182,7 @@ public class Automaton {
 
 	public void showMatrixTransitions() {
 		String[][]  strings = generateTransitionsTable();
-		
+
 		for (int i = 0; i < strings.length; i++) {
 			for (int j = 0; j < strings[i].length; j++) {
 				System.out.print(strings[i][j]+" , ");
@@ -190,7 +190,7 @@ public class Automaton {
 			System.out.println("");
 		}
 	}
-	
+
 	public boolean validateword(String word){
 		for (int i = 0; i < word.length(); i++) {
 			if (!alphabet.contains(word.charAt(i))) {
@@ -199,40 +199,22 @@ public class Automaton {
 		}
 		return true;
 	}
-	
-	public boolean evaluateWord(State state, String word, int count){
-		State auxWord = null;
-		String acumulator = "";
-		if (validateword(word)) {
-			auxWord = searchTransition(state, word.charAt(count));
-			if (auxWord.isAccept() && word.length() == count) {
-				return true;
-			}else if (!auxWord.isAccept() && word.length() == count || auxWord==null) {
-				return false;
-			}else {
-				return evaluateWord(auxWord, word, count++);
-			}
-//			return false;
-		}
-		return false;
-	}
-	
+
+
 	public String evaluateWordVProIngViviana(String word) {
 		State auxState = initialState;
-		String out = auxState.getName();
 		for (int i = 0; i < word.length(); i++) {
 			char letter = word.charAt(i);
 			if (searchTransition(auxState, letter) == null) {
 				return "La palabra no pertenece al lenguaje del autómata";
 			}
 			auxState = searchTransition(auxState, letter);
-			out += auxState.getName();
 		}
 		return finalStateList.contains(auxState) ? "Existe: " + "Sigma(" + initialState.getName()
-				+ ", " + word + ") = " + auxState.getName() : "El estado final no es aceptable";
+		+ ", " + word + ") = " + auxState.getName() : "El estado final no es aceptable";
 	}
 
-public State searchTransition(State stateFrom, Character character){
+	public State searchTransition(State stateFrom, Character character){
 		for (Transition transition : transitionList) {
 			if (transition.getFrom().equals(stateFrom) && character == transition.getCharacter()) {
 				return transition.getTo();
@@ -240,7 +222,7 @@ public State searchTransition(State stateFrom, Character character){
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Automaton [stateList=" + stateList + ", initialState=" + initialState + ", finalState=" + finalStateList

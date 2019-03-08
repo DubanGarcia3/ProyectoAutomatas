@@ -1,12 +1,6 @@
 package test;
 
-import java.util.ArrayList;
 
-
-import models.Automaton;
-import models.State;
-import models.Transition;
-import views.DrawingAutomaton;
 import views.JFrameMainWindow;
 
 public class TestViews {

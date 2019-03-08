@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import models.Automaton;
 import views.DrawingAutomaton;
 import views.JFrameMainWindow;
 
@@ -11,6 +12,7 @@ public class Controller implements ActionListener{
 	public static Controller controller = null;
 	public JFrameMainWindow jFrameMainWindow;
 	public DrawingAutomaton drawingAutomaton = new DrawingAutomaton();
+	public Automaton automaton;
 	
 	private Controller() {
 		
@@ -38,25 +40,30 @@ public class Controller implements ActionListener{
 		case ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS:
 			addAutomatonByFuntionsTransitions();
 			break;
-		default:
+		case SHOW_EVALUATE_WORD:
+			showEvaluateWord();
 			break;
-		
 		}
 	}
 
 	
+	private void showEvaluateWord() {
+		
+		
+	}
+
 	private void showDialogAddTransitionFuncion() {
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(true);
 		jFrameMainWindow.setVisibleJDialogInitial(false);
 	}
 
 	private void addAutomatonByFuntionsTransitions() {
-		drawingAutomaton.createCodigoDrawing(jFrameMainWindow.getAutomaton());
+		automaton = jFrameMainWindow.getAutomaton();
+		drawingAutomaton.createCodigoDrawing(automaton);
 		drawingAutomaton.generar();
 		jFrameMainWindow.setAutomaton();
 		jFrameMainWindow.setVisible(true);
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
-		
 	}
 
 	public void initApp() {
