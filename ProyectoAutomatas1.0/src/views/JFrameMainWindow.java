@@ -7,7 +7,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -23,6 +25,7 @@ public class JFrameMainWindow extends JFrame{
 	private JDialogInitial jDialogInitial;
 	private JPanel panelAutomatonDraw ;
 	private JPanelTable panelTable;
+	private JMenuBar jMenuBar;
 
 	
 	public JFrameMainWindow() {
@@ -37,7 +40,39 @@ public class JFrameMainWindow extends JFrame{
 	}
 
 	private void initComponents() {
-		JMenuBar jMenuBar = new JMenuBar();
+		jMenuBar = new JMenuBar();
+		
+		JMenu menuFile = new JMenu("Archivo");
+		
+		JMenuItem itemImport = new JMenuItem("Importar Automata");
+		itemImport.addActionListener(Controller.getInstance());
+		itemImport.setActionCommand(ActionCommand.IMPORT_AUTOMATON.name());
+		menuFile.add(itemImport);
+	
+		
+		JMenu menuExport = new JMenu("Exportar Automata");
+		
+		JMenuItem itemImg = new JMenuItem("Imagen");
+		itemImg.addActionListener(Controller.getInstance());
+		itemImg.setActionCommand(ActionCommand.EXPORT_AUTOMATON_IMG.name());
+		menuExport.add(itemImg);
+		
+		JMenuItem itemFile = new JMenuItem("XML");
+		itemFile.addActionListener(Controller.getInstance());
+		itemFile.setActionCommand(ActionCommand.EXPORT_AUTOMATON_XML.name());
+		menuExport.add(itemFile);
+		
+		menuFile.add(menuExport);
+		
+		JMenuItem itemExit = new JMenuItem("Salir");
+		itemExit.addActionListener(Controller.getInstance());
+		itemExit.setActionCommand(ActionCommand.EXIT.name());
+		menuFile.add(itemExit);
+		
+		jMenuBar.add(menuFile);
+		
+		this.setJMenuBar(jMenuBar);
+		
 		JToolBar jToolBar = new JToolBar();
 		
 		jToolBar.setFloatable(false);
@@ -85,6 +120,14 @@ public class JFrameMainWindow extends JFrame{
 		JLabel label = new JLabel(new ImageIcon("grafo1.jpg"));
 		panelAutomatonDraw.add(label);
 		revalidate();
+	}
+	
+	public void chargerStates() {
+		jDialogDataAutomaton.chargerStates();
+	}
+	
+	public void addPanelNewFuncion() {
+		jDialogDataAutomaton.addPanelNewFuncion();
 	}
 	 
 //	public void update(String[][] matriz) {

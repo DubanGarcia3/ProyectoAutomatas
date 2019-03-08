@@ -38,9 +38,11 @@ public class Automaton {
 
 
 	public String[][] generateTransitionsTable(){
+		
 		String [][] transitionTable = new String[stateList.size()+1][alphabet.size()+1];
 		int indexState = 0;
 		int indexSymbol = 0;
+		
 		addHeadersTransitionTable(transitionTable);
 		for (int i = 0; i < transitionList.size(); i++) {
 			indexState = stateList.indexOf(transitionList.get(i).getFrom())+1;
@@ -60,9 +62,12 @@ public class Automaton {
 			}
 			name += stateList.get(j).getName(); 
 			transitionTable[i][0] = name;	
+			System.out.println("Estados->"+name);
 		}
+		
 		for (int i = 1, j=0; i < alphabet.size()+1 ; i++,j++) {
 			transitionTable[0][i] = ""+alphabet.get(j);
+			System.out.println("Caracter->"+alphabet.get(j));
 		}
 		return transitionTable;
 	}
@@ -205,6 +210,8 @@ public class Automaton {
 		State auxState = initialState;
 		for (int i = 0; i < word.length(); i++) {
 			char letter = word.charAt(i);
+			System.out.println(auxState.getName());
+			System.out.println(letter);
 			if (searchTransition(auxState, letter) == null) {
 				return "La palabra no pertenece al lenguaje del autómata";
 			}

@@ -3,6 +3,8 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import models.Automaton;
 import views.DrawingAutomaton;
 import views.JFrameMainWindow;
@@ -43,13 +45,25 @@ public class Controller implements ActionListener{
 		case SHOW_EVALUATE_WORD:
 			showEvaluateWord();
 			break;
+		case CHARGE_STATES:
+			jFrameMainWindow.chargerStates();
+			break;
+		case ADD_PANEL_NEW_FUNCION:
+			jFrameMainWindow.addPanelNewFuncion();
+			break;
+		case REMOVE_FUNCION:
+			break;
+		default:
+			break;
+		
 		}
 	}
 
 	
 	private void showEvaluateWord() {
-		
-		
+		String word = JOptionPane.showInputDialog(jFrameMainWindow,
+				"Ingresa la palabra que deseas validar");
+		JOptionPane.showMessageDialog(jFrameMainWindow, automaton.evaluateWordVProIngViviana(word));
 	}
 
 	private void showDialogAddTransitionFuncion() {

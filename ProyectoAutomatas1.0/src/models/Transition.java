@@ -35,4 +35,11 @@ public class Transition {
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
+
+	@Override
+	public String toString() {
+		return "Transition from=" + from + ", to=" + to + ", character=" + character;
+	}
+	
+	
 }
