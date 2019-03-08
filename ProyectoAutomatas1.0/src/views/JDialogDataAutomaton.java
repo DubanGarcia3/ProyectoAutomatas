@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,7 +21,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import controller.ActionCommand;
 import controller.Controller;
@@ -44,8 +45,6 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	private JButton btnAddNewFuncion;
 	
 	private int indexFuncion = -1;
-
-	private Component[] components;
 	
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
@@ -58,57 +57,75 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	}
 
 	private void init() {
+		Font font = new Font("Century Gothic", 1, 14);
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
+		lbTitleDialog.setFont(new Font("Century Gothic", 1, 20));
 		this.add(lbTitleDialog);
 		
+		
 		JPanel panelAlphabet = new JPanel(new GridLayout(1,2));
-		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo(a,b,c)");
+		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo: a,b,c");
 		panelAlphabet.add(jtextAlphabet);
+		panelAlphabet.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(panelAlphabet);
 		
 		JPanel panelStateList = new JPanel(new GridLayout(1,2));
-		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo(q0,q1,q2) ");
+		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo: q0,q1,q2;");
 		jTextStateList.addKeyListener(this);
 		panelStateList.add(jTextStateList);
+		panelStateList.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(panelStateList);
 		
 		JPanel panelInitialState = new JPanel(new GridLayout(1,2));
 		JLabel lbInitialState = new JLabel("Selecciona el estado inicial");
+		lbInitialState.setFont(font);
 		jComboBoxInitialState = new JComboBox<State>();
 		jComboBoxInitialState.setEnabled(false);
 		panelInitialState.add(lbInitialState);
 		panelInitialState.add(jComboBoxInitialState);
+		panelInitialState.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(panelInitialState);
 		
 		JPanel panelStatesAcceptable = new JPanel(new BorderLayout()); 
 		JLabel lbStateAcceptable = new JLabel("Selecciona el(los) estado(s) aceptable(s)");
+		lbStateAcceptable.setFont(font);
 		panelCheckBox = new JPanel(new GridLayout(1, 3));
 		panelStatesAcceptable.add(lbStateAcceptable,BorderLayout.PAGE_START);
 		JScrollPane jScrollPane = new JScrollPane(panelCheckBox);
 		panelStatesAcceptable.add(jScrollPane,BorderLayout.CENTER);
-		
+		panelStatesAcceptable.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(panelStatesAcceptable);
 		
 		JPanel jPanelFuncions = new JPanel(new BorderLayout());
 		JLabel lbFuncionsTransitions = new JLabel("Ingresa las funciones de transicion");
+		lbFuncionsTransitions.setFont(font);
 		jPanelFuncionsTransitions = new JPanel(new GridLayout(1,1,5,5));
 		
 		btnAddNewFuncion = new JButton("Nueva Funcion");
 		btnAddNewFuncion.setName("NewFuncion");
+		btnAddNewFuncion.setFont(font);
 		btnAddNewFuncion.addMouseListener(this);
 		btnAddNewFuncion.setEnabled(false);
+		btnAddNewFuncion.setFont(font);
 		
 		jPanelFuncions.add(btnAddNewFuncion,BorderLayout.LINE_END);
 		jPanelFuncions.add(lbFuncionsTransitions,BorderLayout.PAGE_START);
 		jPanelFuncions.add(jPanelFuncionsTransitions,BorderLayout.CENTER);
-		JScrollPane paneFuncions = new 		JScrollPane(jPanelFuncions,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,jScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane paneFuncions = new 		JScrollPane(jPanelFuncions);
+		paneFuncions.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(paneFuncions);
 		
+		JPanel jPanelBtn = new JPanel(new BorderLayout());
 		btnAccept = new JButton("Aceptar");
+		btnAccept.setFont(font);
 		btnAccept.addActionListener(Controller.getInstance());
 		btnAccept.setEnabled(false);
+		btnAccept.setFont(font);
 		btnAccept.setActionCommand(ActionCommand.ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS.name());
-		this.add(btnAccept);
+		jPanelBtn.add(btnAccept);
+		jPanelBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		this.add(jPanelBtn);
+		
 	}
 
 	@Override
@@ -119,8 +136,9 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	@Override
 	public void keyReleased(KeyEvent event) {
 		if (jTextStateList.isFocusable()) {
-			switch (event.getKeyChar()) {
-			case ';':
+			switch (event.getKeyCode()) {
+			case KeyEvent.VK_ENTER:
+				clearFuncions();
 				Character[] alphabet = getAlphabetList(jtextAlphabet.getText());
 				State[] states = getStatesList(jTextStateList.getText());
 //				jTextStateList.setFocusable(false);
@@ -130,6 +148,7 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 				createCheckBoxAcceptable(states);
 				createFuncionsTransition(alphabet,states);
 				btnAddNewFuncion.setEnabled(true);
+				
 			break;
 			}
 		}
@@ -291,11 +310,12 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 		Component[] components = jPanelFuncionsTransitions.getComponents();
 		for (int i = 0; i < components.length; i++) {
 			JPanel panel = (JPanel) components[i];
-			getTransition(panel);
+			transitionList.add(getTransition(panel));
 		}
 		return transitionList;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Transition getTransition(JPanel panel) {
 		State fromState = new State(false, "")  ;
 		Character characterTransition = ' ' ;
@@ -333,8 +353,11 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 				getTransitionList(),
 				alphabet,
 				new String[1][1]); 
-		System.out.println(automaton.toString());
 		return automaton;
 	}
-
+	
+	public void clearFuncions() {
+		jPanelFuncionsTransitions.removeAll();
+	}
+	
 }
