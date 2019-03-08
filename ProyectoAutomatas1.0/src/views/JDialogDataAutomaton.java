@@ -3,7 +3,6 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,7 +58,6 @@ public class JDialogDataAutomaton extends JDialog implements KeyListener,MouseLi
 	}
 
 	private void init() {
-		Font font = new Font("Century Gothic", 1, 14);
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
 		this.add(lbTitleDialog);
 		
