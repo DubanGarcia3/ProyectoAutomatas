@@ -34,7 +34,7 @@ public class Automaton {
 	public void setHeadersTransitionTable(){
 		int count = 1;
 		for (State state : stateList) {
-			transitionTable[count ][0] = state.getName();
+			transitionTable[count][0] = state.getName();
 			count ++;
 		}
 		count = 1;
@@ -51,7 +51,7 @@ public class Automaton {
 	}
 	
 	public int getIndexOfStateTable(String nameState){
-		for (int i = 1; i < transitionTable[0].length; i++) {
+		for (int i = 1; i < transitionTable[0].length+1; i++) {
 			if (transitionTable[i][0].equalsIgnoreCase(nameState)) {
 				System.out.println(nameState);
 				return i;

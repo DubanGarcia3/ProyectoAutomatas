@@ -24,6 +24,7 @@ public class TestAutomaton {
 		Transition transition2 = new Transition(state1,state0,'a');
 		Transition transition3 = new Transition(state1,state2,'b');
 		
+		
 		ArrayList<Transition> transitionlist = new ArrayList<>();
 		transitionlist.add(transition0);
 		transitionlist.add(transition1);
