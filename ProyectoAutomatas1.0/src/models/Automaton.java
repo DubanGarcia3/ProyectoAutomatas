@@ -6,7 +6,7 @@ public class Automaton {
 
 	private ArrayList<State> stateList;
 	private State initialState;
-	private ArrayList<State>finalState;
+	private ArrayList<State> finalStateList;
 	private ArrayList<Transition> transitionList;
 	private ArrayList<Character> alphabet;
 	String [][] transitionTable;
@@ -17,7 +17,7 @@ public class Automaton {
 			ArrayList<Transition> transitionlist, ArrayList<Character> alphabet,String[][] transitionTable) {
 		this.stateList = stateList;
 		this.initialState = initialState;
-		this.finalState = finalState;
+		this.finalStateList = finalState;
 		this.transitionList = transitionlist;
 		this.alphabet = alphabet;
 		this.transitionTable= transitionTable;
@@ -29,7 +29,7 @@ public class Automaton {
 			ArrayList<Transition> transitionList, ArrayList<Character> alphabet) {
 		this.stateList = stateList;
 		this.initialState = initialState;
-		this.finalState = finalState;
+		this.finalStateList = finalState;
 		this.transitionList = transitionList;
 		this.alphabet = alphabet;
 		this.transitionTable= new String[stateList.size()][alphabet.size()];
@@ -45,7 +45,6 @@ public class Automaton {
 		for (int i = 0; i < transitionList.size(); i++) {
 			indexState = stateList.indexOf(transitionList.get(i).getFrom())+1;
 			indexSymbol = alphabet.indexOf(transitionList.get(i).getCharacter())+1;
-			System.out.println("fila ->" +indexState +"columna ->" +indexSymbol);
 			transitionTable[indexState][indexSymbol] =  transitionList.get(i).getTo().getName();
 		}
 		return transitionTable;
@@ -53,7 +52,14 @@ public class Automaton {
 
 	private String[][]  addHeadersTransitionTable(String[][] transitionTable) {
 		for (int i = 1, j=0; i < stateList.size()+1 ; i++,j++) {
-				transitionTable[i][0] = stateList.get(j).getName();
+			String name ="";
+			if (initialState.equals(stateList.get(j))) {
+				name  += "->";	
+			}if(finalStateList.contains(stateList.get(j))) {
+				name  += "*";
+			}
+			name += stateList.get(j).getName(); 
+			transitionTable[i][0] = name;	
 		}
 		for (int i = 1, j=0; i < alphabet.size()+1 ; i++,j++) {
 				transitionTable[0][i] = ""+alphabet.get(j);
@@ -135,11 +141,11 @@ public class Automaton {
 	}
 
 	public ArrayList<State> getFinalState() {
-		return finalState;
+		return finalStateList;
 	}
 
 	public void setFinalState(ArrayList<State> finalState) {
-		this.finalState = finalState;
+		this.finalStateList = finalState;
 	}
 
 	public ArrayList<Transition> getTransitionlist() {
@@ -185,9 +191,59 @@ public class Automaton {
 		}
 	}
 	
+	public boolean validateword(String word){
+		for (int i = 0; i < word.length(); i++) {
+			if (!alphabet.contains(word.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean evaluateWord(State state, String word, int count){
+		State auxWord = null;
+		String acumulator = "";
+		if (validateword(word)) {
+			auxWord = searchTransition(state, word.charAt(count));
+			if (auxWord.isAccept() && word.length() == count) {
+				return true;
+			}else if (!auxWord.isAccept() && word.length() == count || auxWord==null) {
+				return false;
+			}else {
+				return evaluateWord(auxWord, word, count++);
+			}
+//			return false;
+		}
+		return false;
+	}
+	
+	public String evaluateWordVProIngViviana(String word) {
+		State auxState = initialState;
+		String out = auxState.getName();
+		for (int i = 0; i < word.length(); i++) {
+			char letter = word.charAt(i);
+			if (searchTransition(auxState, letter) == null) {
+				return "La palabra no pertenece al lenguaje del autómata";
+			}
+			auxState = searchTransition(auxState, letter);
+			out += auxState.getName();
+		}
+		return finalStateList.contains(auxState) ? "Existe: " + "Sigma(" + initialState.getName()
+				+ ", " + word + ") = " + auxState.getName() : "El estado final no es aceptable";
+	}
+
+public State searchTransition(State stateFrom, Character character){
+		for (Transition transition : transitionList) {
+			if (transition.getFrom().equals(stateFrom) && character == transition.getCharacter()) {
+				return transition.getTo();
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public String toString() {
-		return "Automaton [stateList=" + stateList + ", initialState=" + initialState + ", finalState=" + finalState
+		return "Automaton [stateList=" + stateList + ", initialState=" + initialState + ", finalState=" + finalStateList
 				+ ", alphabet=" + alphabet + "]";
 	}	
 }
