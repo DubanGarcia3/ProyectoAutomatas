@@ -3,14 +3,17 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -51,8 +54,9 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
 		this.setBackground(new Color(217, 227, 229));
-		this.setLayout(new GridLayout(7, 1, 10, 10));
-		this.setSize(500, 700);
+		this.setLayout(new GridLayout(8, 1, 10, 10));
+		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3,
+				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
 		this.setBackground(Color.WHITE);
@@ -66,7 +70,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		lbTitleDialog.setFont(font);
 		this.add(lbTitleDialog);
 		
-		JPanel panelAlphabet = new JPanel(new GridLayout(1,2));
+		JPanel panelAlphabet = new JPanel(new GridLayout(1,1));
 		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo: a,b,c");
 		jtextAlphabet.setFont(font);
 		panelAlphabet.add(jtextAlphabet);
@@ -74,19 +78,26 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		panelAlphabet.setBackground(Color.WHITE);
 		this.add(panelAlphabet);
 		
-		JPanel panelStateList = new JPanel(new GridLayout(1,2));
+		JPanel panelStateList = new JPanel(new GridLayout(1,1));
 		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo: q0,q1,q2;");
-		jButtonContinue = new JButton("Confirmar v");
-		jButtonContinue.setBackground(Color.decode("#F5B29B"));
-		jButtonContinue.addActionListener(Controller.getInstance());
-		jButtonContinue.setActionCommand(ActionCommand.CHARGE_STATES.name());
+		
 		jTextStateList.setFont(font);
 		panelStateList.add(jTextStateList);
-		panelStateList.add(jButtonContinue);
 		panelStateList.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		panelStateList.setBackground(Color.WHITE);
 		this.add(panelStateList);
 		
+		JPanel jPanelConfirm = new JPanel();
+		jButtonContinue = new JButton("Confirmar");
+		jButtonContinue.setBackground(Color.decode("#E95420"));
+		jButtonContinue.setForeground(Color.WHITE);
+		jButtonContinue.addActionListener(Controller.getInstance());
+		jButtonContinue.setActionCommand(ActionCommand.CHARGE_STATES.name());
+		jButtonContinue.setPreferredSize(new Dimension(this.getWidth()/2, this.getHeight()/11));
+		jButtonContinue.setFont(font);
+		jPanelConfirm.setBackground(Color.WHITE);
+		jPanelConfirm.add(jButtonContinue, BorderLayout.CENTER);
+		this.add(jPanelConfirm);
 		
 		JPanel panelInitialState = new JPanel(new GridLayout(1,2));
 		JLabel lbInitialState = new JLabel("Selecciona el estado inicial");
@@ -218,6 +229,8 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		}
 		if (!getFinalStates().isEmpty()) {
 			btnAccept.setEnabled(true);
+			btnAccept.setBackground(Color.decode("#77216F"));
+			btnAccept.setForeground(Color.WHITE);
 		}else {
 			btnAccept.setEnabled(false);
 		}
