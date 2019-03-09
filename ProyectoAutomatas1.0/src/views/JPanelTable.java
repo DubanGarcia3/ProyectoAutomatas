@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 public class JPanelTable extends JPanel {
@@ -29,7 +30,7 @@ public class JPanelTable extends JPanel {
 		this.add(lbTitle,BorderLayout.PAGE_START);
 
 		scroll = new JScrollPane();
-		
+		scroll.setBackground(Color.decode("#E3D2E2"));
 		this.add(scroll,BorderLayout.CENTER);
 	}	
 
