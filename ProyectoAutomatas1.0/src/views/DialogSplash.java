@@ -22,7 +22,7 @@ public class DialogSplash extends JDialog {
 	}
 
 	/**
-	 * inicializa los componentes propiamente tales
+	 * inicializa los componentes 
 	 */
 	private void init(){
 		this.setSize(641, 496);
