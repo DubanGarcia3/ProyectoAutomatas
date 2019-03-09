@@ -80,11 +80,13 @@ public class Controller implements ActionListener{
 			break;
 		case IMPORT_AUTOMATON:
 			try {
-				automaton.loadAutomatonFromJSON(persistence.loadStateList(), 
-						persistence.loadInitialState(),
-						persistence.loadFinalStateList(),
-						persistence.loadTransitionlist(),
-						persistence.loadAlphabet());
+				//Pedir ruta del archivo JSON
+				String path = "";
+				automaton.loadAutomatonFromJSON(persistence.loadStateList(path), 
+						persistence.loadInitialState(path),
+						persistence.loadFinalStateList(path),
+						persistence.loadTransitionlist(path),
+						persistence.loadAlphabet(path));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

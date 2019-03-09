@@ -23,9 +23,10 @@ public class Persistence {
 
 	
 	//Leer la lista de estados y subirla
-	public ArrayList<State> loadStateList() throws IOException {
+	public ArrayList<State> loadStateList(String path) throws IOException {
 		ArrayList<State> stateList = new ArrayList<>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+//		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		JsonArray stateListJSONArray = automatonJSON.get("Lista de estados").getAsJsonArray();
@@ -38,8 +39,8 @@ public class Persistence {
 	}
 	
 //	Leer el estado incial
-	public State loadInitialState() throws IOException{
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+	public State loadInitialState(String path) throws IOException{
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		JsonObject initalStateJSON = automatonJSON.get("Estado inicial").getAsJsonObject();
@@ -48,9 +49,9 @@ public class Persistence {
 	}
 	
 //	Leer la lista de estados aceptables
-	public ArrayList<State> loadFinalStateList() throws FileNotFoundException {
+	public ArrayList<State> loadFinalStateList(String path) throws FileNotFoundException {
 		ArrayList<State> finalStateList = new ArrayList<>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		JsonArray finalStateListJSONArray = automatonJSON.get("Lista de estados aceptables").getAsJsonArray();
@@ -64,9 +65,9 @@ public class Persistence {
 	
 	
 //	Leer la lista de transiciones
-	public ArrayList<Transition> loadTransitionlist() throws FileNotFoundException {
+	public ArrayList<Transition> loadTransitionlist(String path) throws FileNotFoundException {
 		ArrayList<Transition> transitionList = new ArrayList<>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		JsonArray transitionListJSONArray = automatonJSON.get("Lista de transiciones").getAsJsonArray();
@@ -88,9 +89,9 @@ public class Persistence {
 	}
 	
 //	Leer el alfabeto
-	public ArrayList<Character> loadAlphabet() throws FileNotFoundException {
+	public ArrayList<Character> loadAlphabet(String path) throws FileNotFoundException {
 		ArrayList<Character> alphabet = new ArrayList<>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		JsonArray alphabetJSONArray = automatonJSON.get("Alfabeto").getAsJsonArray();
