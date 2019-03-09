@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -78,14 +79,17 @@ public class Controller implements ActionListener{
 			exportImage();
 			break;
 		case IMPORT_AUTOMATON:
-//			persistence.readJson();
-//			automaton.loadAutomatonFromJSON(stateList, 
-//					initialState,
-//					finalState,
-//					transitionList,
-//					alphabet);
-			break;
-		default:
+			try {
+				automaton.loadAutomatonFromJSON(persistence.loadStateList(), 
+						persistence.loadInitialState(),
+						persistence.loadFinalStateList(),
+						persistence.loadTransitionlist(),
+						persistence.loadAlphabet());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		}
 	}
