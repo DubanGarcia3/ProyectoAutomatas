@@ -53,7 +53,6 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 	
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
-		this.setBackground(new Color(217, 227, 229));
 		this.setLayout(new GridLayout(8, 1, 10, 10));
 		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3,
 				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
@@ -65,14 +64,15 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 
 	private void init() {
 		
-		Font font = new Font("Century Gothic", 1, 14);
+		JPanel jPanelMain= new JPanel();
+		
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
-		lbTitleDialog.setFont(font);
+		lbTitleDialog.setFont(ConstansFont.fontTitle);
 		this.add(lbTitleDialog);
 		
 		JPanel panelAlphabet = new JPanel(new GridLayout(1,1));
 		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo: a,b,c");
-		jtextAlphabet.setFont(font);
+		jtextAlphabet.setFont(ConstansFont.fontregular);
 		panelAlphabet.add(jtextAlphabet);
 		panelAlphabet.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		panelAlphabet.setBackground(Color.WHITE);
@@ -81,7 +81,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		JPanel panelStateList = new JPanel(new GridLayout(1,1));
 		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo: q0,q1,q2;");
 		
-		jTextStateList.setFont(font);
+		jTextStateList.setFont(ConstansFont.fontregular);
 		panelStateList.add(jTextStateList);
 		panelStateList.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		panelStateList.setBackground(Color.WHITE);
@@ -94,14 +94,14 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		jButtonContinue.addActionListener(Controller.getInstance());
 		jButtonContinue.setActionCommand(ActionCommand.CHARGE_STATES.name());
 		jButtonContinue.setPreferredSize(new Dimension(this.getWidth()/2, this.getHeight()/11));
-		jButtonContinue.setFont(font);
+		jButtonContinue.setFont(ConstansFont.fontTitle1);
 		jPanelConfirm.setBackground(Color.WHITE);
 		jPanelConfirm.add(jButtonContinue, BorderLayout.CENTER);
 		this.add(jPanelConfirm);
 		
 		JPanel panelInitialState = new JPanel(new GridLayout(1,2));
 		JLabel lbInitialState = new JLabel("Selecciona el estado inicial");
-		lbInitialState.setFont(font);
+		lbInitialState.setFont(ConstansFont.fontregular);
 		jComboBoxInitialState = new JComboBox<State>();
 		jComboBoxInitialState.setEnabled(false);
 		panelInitialState.add(lbInitialState);
@@ -111,7 +111,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		
 		JPanel panelStatesAcceptable = new JPanel(new BorderLayout()); 
 		JLabel lbStateAcceptable = new JLabel("Selecciona el(los) estado(s) aceptable(s)");
-		lbStateAcceptable.setFont(font);
+		lbStateAcceptable.setFont(ConstansFont.fontregular);
 		panelCheckBox = new JPanel(new GridLayout(1, 3));
 		panelStatesAcceptable.add(lbStateAcceptable,BorderLayout.PAGE_START);
 		JScrollPane jScrollPane = new JScrollPane(panelCheckBox);
@@ -121,17 +121,17 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		
 		JPanel jPanelFuncions = new JPanel(new BorderLayout());
 		JLabel lbFuncionsTransitions = new JLabel("Ingresa las funciones de transicion");
-		lbFuncionsTransitions.setFont(font);
+		lbFuncionsTransitions.setFont(ConstansFont.fontregular);
 		jPanelFuncionsTransitions = new JPanel(new GridLayout(1,1,5,5));
 		
 		btnAddNewFuncion = new JButton("Nueva Funcion");
 		btnAddNewFuncion.setName("NewFuncion");
-		btnAddNewFuncion.setFont(font);
+		btnAddNewFuncion.setFont(ConstansFont.fontregular);
 		btnAddNewFuncion.addActionListener(Controller.getInstance());
 		btnAddNewFuncion.setActionCommand(ActionCommand.ADD_PANEL_NEW_FUNCION.name());
 		btnAddNewFuncion.addMouseListener(this);
 		btnAddNewFuncion.setEnabled(false);
-		btnAddNewFuncion.setFont(font);
+		btnAddNewFuncion.setFont(ConstansFont.fontregular);
 		
 		jPanelFuncions.add(btnAddNewFuncion,BorderLayout.LINE_END);
 		jPanelFuncions.add(lbFuncionsTransitions,BorderLayout.PAGE_START);
@@ -142,17 +142,15 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		
 		JPanel jPanelBtn = new JPanel(new BorderLayout());
 		btnAccept = new JButton("Aceptar");
-		btnAccept.setFont(font);
+		btnAccept.setFont(ConstansFont.fontTitle1);
 		btnAccept.addActionListener(Controller.getInstance());
 		btnAccept.setEnabled(false);
-		btnAccept.setFont(font);
 		btnAccept.setActionCommand(ActionCommand.ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS.name());
 		jPanelBtn.add(btnAccept);
 		jPanelBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(jPanelBtn);
 		
 	}
-
 
 	public void createFuncionsTransition(Character[] alphabet, State[] states) {
 		indexFuncion++;
