@@ -24,6 +24,7 @@ public class JFrameMainWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JDialogDataAutomaton jDialogDataAutomaton;
 	private JDialogInitial jDialogInitial;
+	private DialogSplash dialogSplash;
 	private JPanel panelAutomatonDraw ;
 	private JPanelTable panelTable;
 	private JMenuBar jMenuBar;
@@ -119,6 +120,7 @@ public class JFrameMainWindow extends JFrame{
 		
 		jDialogDataAutomaton = new JDialogDataAutomaton(this);
 		jDialogInitial = new JDialogInitial(this);
+		dialogSplash = new DialogSplash();
 	}
 	
 	public void setVisibleJDialogDataAutomaton(boolean b) {
@@ -139,6 +141,15 @@ public class JFrameMainWindow extends JFrame{
 		revalidate();
 	}
 	
+	
+	public DialogSplash getDialogSplash() {
+		return dialogSplash;
+	}
+
+	public void setDialogSplash(DialogSplash dialogSplash) {
+		this.dialogSplash = dialogSplash;
+	}
+
 	public void chargerStates() {
 		jDialogDataAutomaton.chargerStates();
 	}

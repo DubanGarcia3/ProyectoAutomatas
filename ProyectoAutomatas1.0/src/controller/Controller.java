@@ -124,7 +124,15 @@ public class Controller implements ActionListener{
 	}
 
 	public void initApp() {
+		jFrameMainWindow.getDialogSplash().setVisible(true);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		jFrameMainWindow.getDialogSplash().setVisible(false);
 		jFrameMainWindow.setVisibleJDialogInitial(true);
+		
 	}
 
 	public JFrameMainWindow getjFrameMainWindow() {
