@@ -2,8 +2,10 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import models.Automaton;
@@ -69,10 +71,28 @@ public class Controller implements ActionListener{
 			}
 			JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
 			break;
+		case EXIT:
+			
+			break;
+		case EXPORT_AUTOMATON_IMG:
+			exportImage();
+			break;
+		case IMPORT_AUTOMATON:
+			break;
 		default:
 			break;
 		
+		
 		}
+	}
+	
+	private void exportImage() {
+		 JFileChooser guardar = new JFileChooser();
+		    guardar.showSaveDialog(null);
+		    guardar.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		    File archivo = guardar.getSelectedFile();
+		    drawingAutomaton.generar(archivo.getPath());
+		    JOptionPane.showMessageDialog(jFrameMainWindow, "La imagen a sido exportada correctamente");
 	}
 
 	
@@ -90,7 +110,7 @@ public class Controller implements ActionListener{
 	private void addAutomatonByFuntionsTransitions() {
 		automaton = jFrameMainWindow.getAutomaton();
 		drawingAutomaton.createCodigoDrawing(automaton);
-		drawingAutomaton.generar();
+		drawingAutomaton.generar("grafo1.jpg");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

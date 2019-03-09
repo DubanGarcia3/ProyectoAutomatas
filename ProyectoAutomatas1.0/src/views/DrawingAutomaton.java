@@ -24,21 +24,21 @@ public class DrawingAutomaton extends JPanel {
 		try {
 			fichero = new FileWriter("codigo.txt");
 			pw = new PrintWriter(fichero);
-				pw.println("digraph finite_state_machine {\r\n" + 
-						"	rankdir=LR;\r\n" + 
-						"	size=\"8,5\"\r\n" + 
-						"	node [shape = doublecircle];");
-				ArrayList<State> statesFinals = automaton.getFinalState();
-				for (State state : statesFinals) {
-					pw.print(" "+ state.getName()+" ");
-				}
-				pw.print(";");
-				pw.println("node [shape = circle];");
-				ArrayList<Transition> transitions = automaton.getTransitionlist();
-				for (Transition transition : transitions) {
-					pw.println("" + transition.getFrom().getName() +" -> " + transition.getTo().getName() +" [ label =  \""+transition.getCharacter()+ "\" ];");
-				}
-				pw.println("}");
+			pw.println("digraph finite_state_machine {\r\n" + 
+					"	rankdir=LR;\r\n" + 
+					"	size=\"8,5\"\r\n" + 
+					"	node [shape = doublecircle];");
+			ArrayList<State> statesFinals = automaton.getFinalState();
+			for (State state : statesFinals) {
+				pw.print(" "+ state.getName()+" ");
+			}
+			pw.print(";");
+			pw.println("node [shape = circle];");
+			ArrayList<Transition> transitions = automaton.getTransitionlist();
+			for (Transition transition : transitions) {
+				pw.println("" + transition.getFrom().getName() +" -> " + transition.getTo().getName() +" [ label =  \""+transition.getCharacter()+ "\" ];");
+			}
+			pw.println("}");
 		}catch (Exception e) {
 			// TODO: handle exception
 		} finally {
@@ -52,7 +52,7 @@ public class DrawingAutomaton extends JPanel {
 
 	}
 
-	public void generar(){
+	public void generar(String rutaImg){
 		try {
 
 			//path del dot.exe,por lo general es la misma, pero depende de donde hayas instalado el paquete de Graphviz
@@ -65,7 +65,7 @@ public class DrawingAutomaton extends JPanel {
 
 			//path de salida del grafo, es decir el path de la imagen que vamos a crear con graphviz
 
-			String fileOutputPath = "grafo1.jpg";
+			String fileOutputPath = rutaImg;
 
 			//tipo de imagen de salida, en este caso es jpg
 
@@ -94,7 +94,6 @@ public class DrawingAutomaton extends JPanel {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}  finally {
-		}
+		} 
 	}
 }
