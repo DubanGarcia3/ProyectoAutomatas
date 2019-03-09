@@ -34,6 +34,10 @@ public class DrawingAutomaton extends JPanel {
 			}
 			pw.print(";");
 			pw.println("node [shape = circle];");
+			ArrayList<State> states = automaton.getStateList();
+			for (State state : states) {
+				pw.print(" "+ state.getName()+" ");
+			}
 			ArrayList<Transition> transitions = automaton.getTransitionlist();
 			for (Transition transition : transitions) {
 				pw.println("" + transition.getFrom().getName() +" -> " + transition.getTo().getName() +" [ label =  \""+transition.getCharacter()+ "\" ];");
