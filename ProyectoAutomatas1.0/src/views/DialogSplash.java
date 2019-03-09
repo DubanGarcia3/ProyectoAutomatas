@@ -25,10 +25,10 @@ public class DialogSplash extends JDialog {
 	 * inicializa los componentes 
 	 */
 	private void init(){
-		this.setSize(641, 496);
+		this.setSize(400, 400);
 		this.setVisible(run);
 		this.setLayout(new BorderLayout(1, 1));
-		btimg = new JButton(new ImageIcon(getClass().getResource("/img/honesto.png")));
+		btimg = new JButton(new ImageIcon(getClass().getResource("/img/preloader.gif")));
 		btimg.setBorderPainted(false);
 		this.add(btimg);
 		this.setUndecorated(true);
