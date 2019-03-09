@@ -21,17 +21,19 @@ import models.Transition;
 
 public class Persistence {
 
-	public void readJson() throws IOException {
-//		ArrayList<Recipe> recipes = new ArrayList<>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("src/data/recipies.json"));
+	public ArrayList<State> loadStateList() throws IOException {
+		ArrayList<State> stateList = new ArrayList<>();
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
 		//Leer la lista de estados y subirla
 		JsonArray stateListJSONArray = automatonJSON.get("Lista de estados").getAsJsonArray();
-		for (JsonElement jsonElement : stateListJSONArray) {
-			
+		for (JsonElement jsonObjectState : stateListJSONArray) {
+			JsonObject stateJSON = jsonObjectState.getAsJsonObject();
+			stateList.add(new State(stateJSON.get("isAccept").getAsBoolean(),
+					stateJSON.get("Nombre del estado").getAsString()));
 		}
-		
+		return stateList;
 //		Leer el estado inicial y subirla
 //		for (JsonElement recipeJson : recipesJsonObject) {
 //			JsonObject recipe = recipeJson.getAsJsonObject();
@@ -42,6 +44,22 @@ public class Persistence {
 //			recipes.add(createdRecipe);
 //		}
 //		return recipes;
+	}
+	
+	public void loadInitialState() {
+		
+	}
+	
+	public void loadFinalStateList() {
+		
+	}
+	
+	public void loadTransitionlist() {
+		
+	}
+	
+	public void loadAlphabet() {
+		
 	}
 	
 	public void writeJson(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,

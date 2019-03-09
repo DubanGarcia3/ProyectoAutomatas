@@ -68,6 +68,7 @@ public class TestPersistence {
 		Persistence persistence = new Persistence();
 		try {
 			persistence.writeJson(stateList, state0, stateFinalList, transitionlist, alphabeth);
+			System.out.println(persistence.loadStateList());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
