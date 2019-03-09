@@ -21,12 +21,13 @@ import models.Transition;
 
 public class Persistence {
 
+	
+	//Leer la lista de estados y subirla
 	public ArrayList<State> loadStateList() throws IOException {
 		ArrayList<State> stateList = new ArrayList<>();
 		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
 		Gson gson = new Gson();
 		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
-		//Leer la lista de estados y subirla
 		JsonArray stateListJSONArray = automatonJSON.get("Lista de estados").getAsJsonArray();
 		for (JsonElement jsonObjectState : stateListJSONArray) {
 			JsonObject stateJSON = jsonObjectState.getAsJsonObject();
@@ -34,32 +35,72 @@ public class Persistence {
 					stateJSON.get("Nombre del estado").getAsString()));
 		}
 		return stateList;
-//		Leer el estado inicial y subirla
-//		for (JsonElement recipeJson : recipesJsonObject) {
-//			JsonObject recipe = recipeJson.getAsJsonObject();
-//			Recipe createdRecipe = RecipesManager.createRecipe(recipe.get("name").getAsString(),
-//					recipe.get("ingredients").getAsJsonArray().size(), 
-//					recipe.get("steps").getAsJsonArray().size(), getTotalTime(recipe.get("timers").getAsJsonArray()), 
-//					recipe.get("imageURL").getAsString(), getIngredientsList(recipe.get("ingredients").getAsJsonArray()));
-//			recipes.add(createdRecipe);
-//		}
-//		return recipes;
 	}
 	
-	public void loadInitialState() {
-		
+//	Leer el estado incial
+	public State loadInitialState() throws IOException{
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		Gson gson = new Gson();
+		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
+		JsonObject initalStateJSON = automatonJSON.get("Estado inicial").getAsJsonObject();
+		return new State(initalStateJSON.get("isAccept").getAsBoolean(), 
+		initalStateJSON.get("Nombre del estado").getAsString());
 	}
 	
-	public void loadFinalStateList() {
-		
+//	Leer la lista de estados aceptables
+	public ArrayList<State> loadFinalStateList() throws FileNotFoundException {
+		ArrayList<State> finalStateList = new ArrayList<>();
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		Gson gson = new Gson();
+		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
+		JsonArray finalStateListJSONArray = automatonJSON.get("Lista de estados aceptables").getAsJsonArray();
+		for (JsonElement jsonObjectFinalState : finalStateListJSONArray) {
+			JsonObject stateJSON = jsonObjectFinalState.getAsJsonObject();
+			finalStateList.add(new State(stateJSON.get("isAccept").getAsBoolean(),
+					stateJSON.get("Nombre del estado").getAsString()));
+		}
+		return finalStateList;
 	}
 	
-	public void loadTransitionlist() {
-		
+	
+//	Leer la lista de transiciones
+	public ArrayList<Transition> loadTransitionlist() throws FileNotFoundException {
+		ArrayList<Transition> transitionList = new ArrayList<>();
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		Gson gson = new Gson();
+		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
+		JsonArray transitionListJSONArray = automatonJSON.get("Lista de transiciones").getAsJsonArray();
+		for (JsonElement jsonObjectTransition : transitionListJSONArray) {
+			JsonObject transitionJSON = jsonObjectTransition.getAsJsonObject();
+			
+			boolean isAcceptStateFrom = transitionJSON.get("From").getAsJsonObject().get("isAccept").
+					getAsBoolean();
+			String nameStateFrom = transitionJSON.get("From").getAsJsonObject().get("Name").getAsString();
+			
+			boolean isAcceptStateTo = transitionJSON.get("To").getAsJsonObject().get("isAccept").
+					getAsBoolean();
+			String nameStateTo = transitionJSON.get("To").getAsJsonObject().get("Name").getAsString();
+			Character letter = transitionJSON.get("Character").getAsCharacter();
+			transitionList.add(new Transition(new State(isAcceptStateFrom, nameStateFrom), 
+					new State(isAcceptStateTo, nameStateTo), letter));
+		}
+		return transitionList;
 	}
 	
-	public void loadAlphabet() {
-		
+//	Leer el alfabeto
+	public ArrayList<Character> loadAlphabet() throws FileNotFoundException {
+		ArrayList<Character> alphabet = new ArrayList<>();
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("data/automaton.json"));
+		Gson gson = new Gson();
+		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
+		JsonArray alphabetJSONArray = automatonJSON.get("Alfabeto").getAsJsonArray();
+		int count = 1;
+		for (JsonElement jsonObjectAlphabet : alphabetJSONArray) {
+			JsonObject alphabetJSON = jsonObjectAlphabet.getAsJsonObject();
+			alphabet.add(alphabetJSON.get(count+"").getAsCharacter());
+			count++;
+		}
+		return alphabet;
 	}
 	
 	public void writeJson(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,
@@ -82,7 +123,7 @@ public class Persistence {
 //		Agrega el estado inicial
 		JsonObject initialStateJSON = new JsonObject(); 
 		initialStateJSON.addProperty("isAccept", initialState.isAccept());
-		initialStateJSON.addProperty("Estado inicial nombre", initialState.getName());
+		initialStateJSON.addProperty("Nombre del estado", initialState.getName());
 		automatonJSON.add("Estado inicial", initialStateJSON);
 		
 //		Agrega la lista de estados aceptables
@@ -90,7 +131,7 @@ public class Persistence {
 		for (State finalStateToAdd : finalState) {
 			JsonObject finalStateJSON1 = new JsonObject();
 			finalStateJSON1.addProperty("isAccept", finalStateToAdd.isAccept());
-			finalStateJSON1.addProperty("Nombre del estado aceptable", finalStateToAdd.getName());	
+			finalStateJSON1.addProperty("Nombre del estado", finalStateToAdd.getName());	
 			finalStateListJSON.add(finalStateJSON1);
 		}
 		automatonJSON.add("Lista de estados aceptables", finalStateListJSON);
@@ -116,11 +157,13 @@ public class Persistence {
 		
 //		Agrega el alfabeto
 		JsonArray alphabetListJSON = new JsonArray();
+		int count = 1;
 		for (Character charToAdd : alphabet) {
 			JsonObject letterJSON = new JsonObject();
-			letterJSON.addProperty(charToAdd.toString(), charToAdd.toString());
+			letterJSON.addProperty(count+"", charToAdd.toString());
 			alphabetListJSON.add(letterJSON);
 			automatonJSON.add("Alfabeto", alphabetListJSON);
+			count++;
 		}
 		file.write(automatonJSON.toString());
 		file.flush();
