@@ -2,10 +2,12 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 import models.Automaton;
+import persistence.Persistence;
 import views.DrawingAutomaton;
 import views.JFrameMainWindow;
 
@@ -15,6 +17,7 @@ public class Controller implements ActionListener{
 	public JFrameMainWindow jFrameMainWindow;
 	public DrawingAutomaton drawingAutomaton = new DrawingAutomaton();
 	public Automaton automaton;
+	private Persistence persistence;
 	
 	private Controller() {
 		
@@ -52,6 +55,19 @@ public class Controller implements ActionListener{
 			jFrameMainWindow.addPanelNewFuncion();
 			break;
 		case REMOVE_FUNCION:
+			break;
+		case EXPORT_AUTOMATON_JSON:
+			persistence = new Persistence();
+			try {
+				persistence.writeJson(automaton.getStateList(), 
+						automaton.getInitialState(), 
+						automaton.getFinalState(), 
+						automaton.getTransitionlist(), 
+						automaton.getAlphabet());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
 			break;
 		default:
 			break;

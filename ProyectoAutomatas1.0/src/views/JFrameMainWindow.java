@@ -16,6 +16,7 @@ import javax.swing.JToolBar;
 import controller.ActionCommand;
 import controller.Controller;
 import models.Automaton;
+import persistence.Persistence;
 
 
 public class JFrameMainWindow extends JFrame{
@@ -57,9 +58,9 @@ public class JFrameMainWindow extends JFrame{
 		itemImg.setActionCommand(ActionCommand.EXPORT_AUTOMATON_IMG.name());
 		menuExport.add(itemImg);
 		
-		JMenuItem itemFile = new JMenuItem("XML");
+		JMenuItem itemFile = new JMenuItem("JSON");
 		itemFile.addActionListener(Controller.getInstance());
-		itemFile.setActionCommand(ActionCommand.EXPORT_AUTOMATON_XML.name());
+		itemFile.setActionCommand(ActionCommand.EXPORT_AUTOMATON_JSON.name());
 		menuExport.add(itemFile);
 		
 		menuFile.add(menuExport);
