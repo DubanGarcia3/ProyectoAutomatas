@@ -62,7 +62,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		init();	
 	}
 
-	private void init() {
+private void init() {
 		
 		JPanel jPanelMain= new JPanel();
 		

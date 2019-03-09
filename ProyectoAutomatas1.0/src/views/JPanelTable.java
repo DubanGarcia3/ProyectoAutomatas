@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -75,6 +76,13 @@ public class JPanelTable extends JPanel {
 
 		addDataTable(tm,matriz);
 		scroll.setViewportView(tableTransitions);
+		/**
+		 * agregacion colores y fuente
+		 */
+		tableTransitions.setFont(ConstansFont.fontregular);
+		tableTransitions.getTableHeader().setFont(ConstansFont.fontregular);
+		tableTransitions.getTableHeader().setForeground(Color.WHITE);
+		tableTransitions.getTableHeader().setBackground(Color.decode("#84377D"));
 
 	}
 
