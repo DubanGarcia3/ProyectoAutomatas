@@ -1,5 +1,6 @@
 package persistence;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,11 +21,18 @@ import models.Transition;
 
 public class Persistence {
 
-//	public ArrayList<Recipe> readJson() throws IOException {
+	public void readJson() throws IOException {
 //		ArrayList<Recipe> recipes = new ArrayList<>();
-//		BufferedReader bufferedReader = new BufferedReader(new FileReader("src/data/recipies.json"));
-//		Gson gson = new Gson();
-//		JsonArray recipesJsonObject = gson.fromJson(bufferedReader, JsonArray.class);
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("src/data/recipies.json"));
+		Gson gson = new Gson();
+		JsonObject automatonJSON = gson.fromJson(bufferedReader, JsonObject.class);
+		//Leer la lista de estados y subirla
+		JsonArray stateListJSONArray = automatonJSON.get("Lista de estados").getAsJsonArray();
+		for (JsonElement jsonElement : stateListJSONArray) {
+			
+		}
+		
+//		Leer el estado inicial y subirla
 //		for (JsonElement recipeJson : recipesJsonObject) {
 //			JsonObject recipe = recipeJson.getAsJsonObject();
 //			Recipe createdRecipe = RecipesManager.createRecipe(recipe.get("name").getAsString(),
@@ -34,7 +42,7 @@ public class Persistence {
 //			recipes.add(createdRecipe);
 //		}
 //		return recipes;
-//	}
+	}
 	
 	public void writeJson(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,
 		ArrayList<Transition> transitionlist, ArrayList<Character> alphabet) throws IOException {

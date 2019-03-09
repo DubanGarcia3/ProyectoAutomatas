@@ -78,6 +78,12 @@ public class Controller implements ActionListener{
 			exportImage();
 			break;
 		case IMPORT_AUTOMATON:
+//			persistence.readJson();
+//			automaton.loadAutomatonFromJSON(stateList, 
+//					initialState,
+//					finalState,
+//					transitionList,
+//					alphabet);
 			break;
 		default:
 			break;

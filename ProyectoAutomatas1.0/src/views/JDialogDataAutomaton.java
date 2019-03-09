@@ -63,7 +63,6 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 	}
 
 private void init() {
-		
 		JPanel jPanelMain= new JPanel();
 		
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
@@ -110,6 +109,7 @@ private void init() {
 		this.add(panelInitialState);
 		
 		JPanel panelStatesAcceptable = new JPanel(new BorderLayout()); 
+		panelStatesAcceptable.setPreferredSize(new Dimension(0, 500));
 		JLabel lbStateAcceptable = new JLabel("Selecciona el(los) estado(s) aceptable(s)");
 		lbStateAcceptable.setFont(ConstansFont.fontregular);
 		panelCheckBox = new JPanel(new GridLayout(1, 3));
@@ -149,7 +149,6 @@ private void init() {
 		jPanelBtn.add(btnAccept);
 		jPanelBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		this.add(jPanelBtn);
-		
 	}
 
 	public void createFuncionsTransition(Character[] alphabet, State[] states) {

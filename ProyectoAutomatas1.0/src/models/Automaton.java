@@ -31,6 +31,16 @@ public class Automaton {
 		this.transitionTable= new String[stateList.size()][alphabet.size()];
 	}
 	
+	public void loadAutomatonFromJSON(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,
+			ArrayList<Transition> transitionList, ArrayList<Character> alphabet) {
+		this.stateList = stateList;
+		this.initialState = initialState;
+		this.finalStateList = finalState;
+		this.transitionList = transitionList;
+		this.alphabet = alphabet;
+		this.transitionTable= new String[stateList.size()][alphabet.size()];
+	}
+	
 	public String[][] generateTransitionsTable(){
 		
 		String [][] transitionTable = new String[stateList.size()+1][alphabet.size()+1];
