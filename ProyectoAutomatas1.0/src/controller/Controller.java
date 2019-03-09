@@ -83,7 +83,7 @@ public class Controller implements ActionListener{
 		}
 		jFrameMainWindow.setVisible(true);
 		jFrameMainWindow.setAutomaton();
-//		jFrameMainWindow.update(automaton.generateTransitionsTable());
+		jFrameMainWindow.update(automaton.generateTransitionsTable());
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
 	}
 

@@ -130,9 +130,9 @@ public class JFrameMainWindow extends JFrame{
 		jDialogDataAutomaton.addPanelNewFuncion();
 	}
 	 
-//	public void update(String[][] matriz) {
-//		panelTable.updateTable(matriz);
-//		repaint();
-//	}
+	public void update(String[][] matriz) {
+		panelTable.update(matriz);
+		repaint();
+	}
 	
 }
