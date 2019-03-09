@@ -34,6 +34,7 @@ public class JFrameMainWindow extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setSize(700, 500);
+		this.setBackground(Color.white);
 //		this.setIconImage(new ImageIcon("src/img/logo.png").getImage());
 		this.setLocationRelativeTo(null);
 		initComponents();
@@ -42,25 +43,31 @@ public class JFrameMainWindow extends JFrame{
 
 	private void initComponents() {
 		jMenuBar = new JMenuBar();
-		
+		jMenuBar.setBackground(Color.decode("#E3D2E2"));
 		JMenu menuFile = new JMenu("Archivo");
+		menuFile.setFont(ConstansFont.fontTitle1);
+		menuFile.setBackground(Color.decode("#E3D2E2"));
 		
 		JMenuItem itemImport = new JMenuItem("Importar Automata");
 		itemImport.addActionListener(Controller.getInstance());
 		itemImport.setActionCommand(ActionCommand.IMPORT_AUTOMATON.name());
+		itemImport.setFont(ConstansFont.fontregular);
 		menuFile.add(itemImport);
 	
 		
 		JMenu menuExport = new JMenu("Exportar Automata");
+		menuExport.setFont(ConstansFont.fontregular);
 		
 		JMenuItem itemImg = new JMenuItem("Imagen");
 		itemImg.addActionListener(Controller.getInstance());
 		itemImg.setActionCommand(ActionCommand.EXPORT_AUTOMATON_IMG.name());
+		itemImg.setFont(ConstansFont.fontregular);
 		menuExport.add(itemImg);
 		
 		JMenuItem itemFile = new JMenuItem("JSON");
 		itemFile.addActionListener(Controller.getInstance());
 		itemFile.setActionCommand(ActionCommand.EXPORT_AUTOMATON_JSON.name());
+		itemFile.setFont(ConstansFont.fontregular);
 		menuExport.add(itemFile);
 		
 		menuFile.add(menuExport);
@@ -68,6 +75,7 @@ public class JFrameMainWindow extends JFrame{
 		JMenuItem itemExit = new JMenuItem("Salir");
 		itemExit.addActionListener(Controller.getInstance());
 		itemExit.setActionCommand(ActionCommand.EXIT.name());
+		itemExit.setFont(ConstansFont.fontregular);
 		menuFile.add(itemExit);
 		
 		jMenuBar.add(menuFile);
@@ -77,14 +85,22 @@ public class JFrameMainWindow extends JFrame{
 		JToolBar jToolBar = new JToolBar();
 		
 		jToolBar.setFloatable(false);
-		JButton btnAddNewAutomaton = new JButton("Nuevos Automata");
+		jToolBar.setBackground(Color.decode("#E3D2E2"));
+		jToolBar.setBorderPainted(false);
+		JButton btnAddNewAutomaton = new JButton("Nuevo Automata");
 		btnAddNewAutomaton.addActionListener(Controller.getInstance());
 		btnAddNewAutomaton.setActionCommand(ActionCommand.SHOW_DIALOG_ADD_TRANSITION_FUNCION.name());
+		btnAddNewAutomaton.setFont(ConstansFont.fontTitle1);
+		btnAddNewAutomaton.setForeground(Color.WHITE);
+		btnAddNewAutomaton.setBackground(Color.decode("#EB6536"));
 		jToolBar.add(btnAddNewAutomaton);
 		
 		JButton btnEvaluateWord = new JButton("Validar Palabra");
 		btnEvaluateWord.addActionListener(Controller.getInstance());
 		btnEvaluateWord.setActionCommand(ActionCommand.SHOW_EVALUATE_WORD.name());
+		btnEvaluateWord.setFont(ConstansFont.fontTitle1);
+		btnEvaluateWord.setBackground(Color.decode("#EB6536"));
+		btnEvaluateWord.setForeground(Color.WHITE);
 		jToolBar.add(btnEvaluateWord);
 		
 		this.add(jToolBar, BorderLayout.PAGE_START);

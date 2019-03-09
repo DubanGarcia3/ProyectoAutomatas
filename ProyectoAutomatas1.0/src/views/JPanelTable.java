@@ -22,15 +22,14 @@ public class JPanelTable extends JPanel {
 
 	public JPanelTable() {
 		this.setLayout(new BorderLayout());
-
+		this.setBackground(Color.decode("#E3D2E2"));
 		lbTitle = new JLabel("Matriz de Transiciones");
 		lbTitle.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		lbTitle.setFont(ConstansFont.fontTitle1);
 		this.add(lbTitle,BorderLayout.PAGE_START);
 
 		scroll = new JScrollPane();
-
-
-
+		
 		this.add(scroll,BorderLayout.CENTER);
 	}	
 
@@ -83,6 +82,7 @@ public class JPanelTable extends JPanel {
 		tableTransitions.getTableHeader().setFont(ConstansFont.fontregular);
 		tableTransitions.getTableHeader().setForeground(Color.WHITE);
 		tableTransitions.getTableHeader().setBackground(Color.decode("#84377D"));
+		scroll.setBackground(Color.decode("#E3D2E2"));
 
 	}
 
