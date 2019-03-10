@@ -53,10 +53,11 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 
 	private State[] states;
 	
+	//constructor
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
 		this.setLayout(new BorderLayout());
-		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,
+		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/11,
 				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
@@ -107,7 +108,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		jButtonContinue.setForeground(Color.WHITE);
 		jButtonContinue.addActionListener(Controller.getInstance());
 		jButtonContinue.setActionCommand(ActionCommand.CHARGE_STATES.name());
-		jButtonContinue.setPreferredSize(new Dimension(this.getWidth()/2, this.getHeight()/11));
+		jButtonContinue.setPreferredSize(new Dimension(this.getWidth()/2, this.getHeight()/15));
 		jButtonContinue.setFont(ConstansFont.fontTitle1);
 		jPanelConfirm.setBackground(Color.WHITE);
 		jPanelConfirm.add(jButtonContinue, BorderLayout.CENTER);
@@ -188,6 +189,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		JComboBox<State> from = new JComboBox<State>(stateModelFrom);
 		from.setName("from");
 		from.setFont(ConstansFont.fontregular);
+		from.setBackground(Color.decode("#CFB4C2"));
 		panel.add(from);
 		JLabel lbcoma = new JLabel(" , ",JLabel.CENTER);
 		lbcoma.setFont(ConstansFont.fontTitle1);
@@ -205,6 +207,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		JComboBox<State> to = new JComboBox<State>(stateModelTo);
 		to.setFont(ConstansFont.fontregular);
 		to.setName("to");
+		to.setBackground(Color.decode("#CFB4C2"));
 		to.addMouseListener(this);
 		panel.add(to);
 		GridLayout gridLayout = (GridLayout) jPanelFuncionsTransitions.getLayout();
