@@ -90,7 +90,7 @@ public class Controller implements ActionListener{
 					automaton.getTransitionlist(), 
 					automaton.getAlphabet());
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
 		

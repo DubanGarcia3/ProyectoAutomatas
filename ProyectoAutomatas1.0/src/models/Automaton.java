@@ -52,7 +52,7 @@ public class Automaton {
 			indexState = stateList.indexOf(transitionList.get(i).getFrom())+1;
 			indexSymbol = alphabet.indexOf(transitionList.get(i).getCharacter())+1;
 			transitionTable[indexState][indexSymbol] =  transitionList.get(i).getTo().getName();
-			System.out.println();
+//			System.out.println();
 		}
 		return transitionTable;
 	}
@@ -67,12 +67,12 @@ public class Automaton {
 			}
 			name += stateList.get(j).getName(); 
 			transitionTable[i][0] = name;	
-			System.out.println("Estados->"+name);
+//			System.out.println("Estados->"+name);
 		}
 		
 		for (int i = 1, j=0; i < alphabet.size()+1 ; i++,j++) {
 			transitionTable[0][i] = ""+alphabet.get(j);
-			System.out.println("Caracter->"+alphabet.get(j));
+//			System.out.println("Caracter->"+alphabet.get(j));
 		}
 		return transitionTable;
 	}
