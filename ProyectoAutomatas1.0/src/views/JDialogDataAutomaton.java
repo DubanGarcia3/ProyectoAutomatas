@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -53,38 +55,51 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 	
 	public JDialogDataAutomaton(JFrameMainWindow frameMainWindow) {
 		super(frameMainWindow);
-		this.setLayout(new GridLayout(8, 1, 10, 10));
-		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3,
+		this.setLayout(new BorderLayout());
+		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,
 				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
 		this.setBackground(Color.WHITE);
-		init();	
+		init();
 	}
 
-private void init() {
+	private void init() {
 		JPanel jPanelMain= new JPanel();
+		jPanelMain.setBackground(Color.WHITE);
+		jPanelMain.setLayout(new GridLayout(2,1));
 		
+		JPanel jPanelsup = new JPanel();
+		jPanelsup.setBackground(Color.WHITE);
+		jPanelsup.setLayout(new GridLayout(5,1));
+		
+		JPanel jPanelInf = new JPanel();
+		jPanelInf.setLayout(new BorderLayout());
+		jPanelInf.setBackground(Color.red);
+		
+		JPanel jPaneltitle = new JPanel();
 		lbTitleDialog = new JLabel("Componentes del Automata:",JLabel.CENTER);
 		lbTitleDialog.setFont(ConstansFont.fontTitle);
-		this.add(lbTitleDialog);
+		jPaneltitle.add(lbTitleDialog);
+		jPaneltitle.setBackground(Color.WHITE);
+		this.add(jPaneltitle,BorderLayout.NORTH);
 		
 		JPanel panelAlphabet = new JPanel(new GridLayout(1,1));
 		jtextAlphabet = new MyJTextField("Ingrese el Alfabeto separado por comas, ejemplo: a,b,c");
-		jtextAlphabet.setFont(ConstansFont.fontregular);
+		jtextAlphabet.setFont(ConstansFont.fontTitle1);
 		panelAlphabet.add(jtextAlphabet);
 		panelAlphabet.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		panelAlphabet.setBackground(Color.WHITE);
-		this.add(panelAlphabet);
+		jPanelsup.add(panelAlphabet);
 		
 		JPanel panelStateList = new JPanel(new GridLayout(1,1));
 		jTextStateList = new MyJTextField("Ingrese los estados separados por comas, ejemplo: q0,q1,q2;");
 		
-		jTextStateList.setFont(ConstansFont.fontregular);
+		jTextStateList.setFont(ConstansFont.fontTitle1);
 		panelStateList.add(jTextStateList);
 		panelStateList.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		panelStateList.setBackground(Color.WHITE);
-		this.add(panelStateList);
+		jPanelsup.add(panelStateList);
 		
 		JPanel jPanelConfirm = new JPanel();
 		jButtonContinue = new JButton("Confirmar");
@@ -96,28 +111,34 @@ private void init() {
 		jButtonContinue.setFont(ConstansFont.fontTitle1);
 		jPanelConfirm.setBackground(Color.WHITE);
 		jPanelConfirm.add(jButtonContinue, BorderLayout.CENTER);
-		this.add(jPanelConfirm);
+		jPanelsup.add(jPanelConfirm);
 		
 		JPanel panelInitialState = new JPanel(new GridLayout(1,2));
 		JLabel lbInitialState = new JLabel("Selecciona el estado inicial");
 		lbInitialState.setFont(ConstansFont.fontregular);
 		jComboBoxInitialState = new JComboBox<State>();
 		jComboBoxInitialState.setEnabled(false);
+		jComboBoxInitialState.setFont(ConstansFont.fontregular);
 		panelInitialState.add(lbInitialState);
 		panelInitialState.add(jComboBoxInitialState);
 		panelInitialState.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		this.add(panelInitialState);
+		panelInitialState.setBackground(Color.WHITE);
+		jPanelsup.add(panelInitialState);
 		
 		JPanel panelStatesAcceptable = new JPanel(new BorderLayout()); 
 		panelStatesAcceptable.setPreferredSize(new Dimension(0, 500));
 		JLabel lbStateAcceptable = new JLabel("Selecciona el(los) estado(s) aceptable(s)");
 		lbStateAcceptable.setFont(ConstansFont.fontregular);
 		panelCheckBox = new JPanel(new GridLayout(1, 3));
+		panelCheckBox.setFont(ConstansFont.fontregular);
+		panelCheckBox.setBackground(Color.WHITE);
 		panelStatesAcceptable.add(lbStateAcceptable,BorderLayout.PAGE_START);
+		panelStatesAcceptable.setBackground(Color.WHITE);
 		JScrollPane jScrollPane = new JScrollPane(panelCheckBox);
+		jScrollPane.setBackground(Color.white);
 		panelStatesAcceptable.add(jScrollPane,BorderLayout.CENTER);
 		panelStatesAcceptable.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		this.add(panelStatesAcceptable);
+		jPanelsup.add(panelStatesAcceptable);
 		
 		JPanel jPanelFuncions = new JPanel(new BorderLayout());
 		JLabel lbFuncionsTransitions = new JLabel("Ingresa las funciones de transicion");
@@ -136,9 +157,10 @@ private void init() {
 		jPanelFuncions.add(btnAddNewFuncion,BorderLayout.LINE_END);
 		jPanelFuncions.add(lbFuncionsTransitions,BorderLayout.PAGE_START);
 		jPanelFuncions.add(jPanelFuncionsTransitions,BorderLayout.CENTER);
-		JScrollPane paneFuncions = new 		JScrollPane(jPanelFuncions);
+		jPanelFuncions.setBackground(Color.WHITE);
+		JScrollPane paneFuncions = new JScrollPane(jPanelFuncions);
 		paneFuncions.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		this.add(paneFuncions);
+		jPanelInf.add(paneFuncions);
 		
 		JPanel jPanelBtn = new JPanel(new BorderLayout());
 		btnAccept = new JButton("Aceptar");
@@ -148,7 +170,11 @@ private void init() {
 		btnAccept.setActionCommand(ActionCommand.ADD_AUTOMATON_BY_FUNTIONS_TRANSITIONS.name());
 		jPanelBtn.add(btnAccept);
 		jPanelBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		this.add(jPanelBtn);
+		this.add(jPanelBtn,BorderLayout.SOUTH);
+		
+		jPanelMain.add(jPanelsup);
+		jPanelMain.add(jPanelInf);
+		this.add(jPanelMain,BorderLayout.CENTER);
 	}
 
 	public void createFuncionsTransition(Character[] alphabet, State[] states) {
@@ -156,21 +182,28 @@ private void init() {
 		JPanel panel = new JPanel(new GridLayout(1,7));
 		panel.setName("Panel" + indexFuncion);
 		JLabel lbF = new JLabel("F(",JLabel.CENTER);
+		lbF.setFont(ConstansFont.fontTitle1);
 		panel.add(lbF);
 		DefaultComboBoxModel<State> stateModelFrom = new DefaultComboBoxModel<State>(states);
 		JComboBox<State> from = new JComboBox<State>(stateModelFrom);
 		from.setName("from");
+		from.setFont(ConstansFont.fontregular);
 		panel.add(from);
 		JLabel lbcoma = new JLabel(" , ",JLabel.CENTER);
+		lbcoma.setFont(ConstansFont.fontTitle1);
 		panel.add(lbcoma);
 		DefaultComboBoxModel<Character > alphabetModel = new DefaultComboBoxModel<Character>(alphabet);
 		JComboBox<Character> character = new JComboBox<Character>(alphabetModel);
+		character.setFont(ConstansFont.fontregular);
+		character.setBackground(Color.decode("#CFB4C2"));
 		character.setName("character");
 		panel.add(character);
 		JLabel lbFinFuncion = new JLabel(" ) =" ,JLabel.CENTER);
+		lbFinFuncion.setFont(ConstansFont.fontTitle1);
 		panel.add(lbFinFuncion);
 		DefaultComboBoxModel<State> stateModelTo = new DefaultComboBoxModel<State>(states);
 		JComboBox<State> to = new JComboBox<State>(stateModelTo);
+		to.setFont(ConstansFont.fontregular);
 		to.setName("to");
 		to.addMouseListener(this);
 		panel.add(to);
@@ -180,7 +213,10 @@ private void init() {
 		if (indexFuncion > 0) {
 			JButton btnRemoveFuncion = new JButton("Eliminar");
 			btnRemoveFuncion.setName("btn"+indexFuncion);
+			btnRemoveFuncion.setFont(ConstansFont.fontregular);
 			btnRemoveFuncion.addMouseListener(this);
+			btnRemoveFuncion.setBackground(Color.decode("#84377D"));
+			btnRemoveFuncion.setForeground(Color.WHITE);
 			panel.add(btnRemoveFuncion);
 		}
 		
@@ -205,6 +241,7 @@ private void init() {
 			JCheckBox checkBox = new JCheckBox(state.toString());
 			checkBox.setName(state.getName());
 			checkBox.addMouseListener(this);
+			checkBox.setFont(ConstansFont.fontregular);
 			panelCheckBox.add(checkBox);
 			repaint();
 		}
@@ -228,6 +265,8 @@ private void init() {
 			btnAccept.setEnabled(true);
 			btnAccept.setBackground(Color.decode("#77216F"));
 			btnAccept.setForeground(Color.WHITE);
+			btnAddNewFuncion.setBackground(Color.decode("#E95420"));
+			btnAddNewFuncion.setForeground(Color.WHITE);
 		}else {
 			btnAccept.setEnabled(false);
 		}
@@ -356,6 +395,8 @@ private void init() {
 		createCheckBoxAcceptable(states);
 		createFuncionsTransition(alphabet,states);
 		btnAddNewFuncion.setEnabled(true);
+		btnAddNewFuncion.setBackground(Color.decode("#E95420"));
+		btnAddNewFuncion.setForeground(Color.WHITE);
 	}
 
 	public void addPanelNewFuncion() {
