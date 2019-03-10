@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import models.Automaton;
+import models.State;
 import persistence.Persistence;
 import views.DrawingAutomaton;
 import views.JFrameMainWindow;
@@ -60,17 +63,7 @@ public class Controller implements ActionListener{
 		case REMOVE_FUNCION:
 			break;
 		case EXPORT_AUTOMATON_JSON:
-			persistence = new Persistence();
-			try {
-				persistence.writeJson(automaton.getStateList(), 
-						automaton.getInitialState(), 
-						automaton.getFinalState(), 
-						automaton.getTransitionlist(), 
-						automaton.getAlphabet());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
+			exportAutomaton();
 			break;
 		case EXIT:
 			
@@ -79,23 +72,54 @@ public class Controller implements ActionListener{
 			exportImage();
 			break;
 		case IMPORT_AUTOMATON:
-			try {
-				//Pedir ruta del archivo JSON
-				String path = "";
-				automaton.loadAutomatonFromJSON(persistence.loadStateList(path), 
-						persistence.loadInitialState(path),
-						persistence.loadFinalStateList(path),
-						persistence.loadTransitionlist(path),
-						persistence.loadAlphabet(path));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			importAutomaton();
 			break;
 		}
 	}
 	
+	private void exportAutomaton() {
+		JFileChooser guardar = new JFileChooser();
+	    guardar.showSaveDialog(null);
+	    guardar.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	    File archivo = guardar.getSelectedFile();
+		persistence = new Persistence();
+		try {
+			persistence.writeJson(archivo.getPath(),automaton.getStateList(), 
+					automaton.getInitialState(), 
+					automaton.getFinalState(), 
+					automaton.getTransitionlist(), 
+					automaton.getAlphabet());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
+		
+	}
+
+	private void importAutomaton() {
+		 JFileChooser guardar = new JFileChooser();
+		 	FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("json","JSON");
+			guardar.setFileFilter(filtroImagen);
+		    guardar.showSaveDialog(null);
+		    guardar.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		    persistence = new Persistence();
+		File archivo = guardar.getSelectedFile();
+		try {
+			String path = archivo.getPath();
+			ArrayList<State> states = persistence.loadStateList(path);
+			automaton = new Automaton(states, 
+					persistence.loadInitialState(path,states),
+					persistence.loadFinalStateList(path,states),
+					persistence.loadTransitionlist(path,states),
+					persistence.loadAlphabet(path));
+			updateAutomaton();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void exportImage() {
 		 JFileChooser guardar = new JFileChooser();
 		    guardar.showSaveDialog(null);
@@ -119,6 +143,10 @@ public class Controller implements ActionListener{
 
 	private void addAutomatonByFuntionsTransitions() {
 		automaton = jFrameMainWindow.getAutomaton();
+		updateAutomaton();
+	}
+
+	private void updateAutomaton() {
 		drawingAutomaton.createCodigoDrawing(automaton);
 		drawingAutomaton.generar("grafo1.jpg");
 		try {
@@ -131,6 +159,7 @@ public class Controller implements ActionListener{
 		jFrameMainWindow.setAutomaton();
 		jFrameMainWindow.update(automaton.generateTransitionsTable());
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
+		jFrameMainWindow.setVisibleJDialogInitial(false);
 	}
 
 	public void initApp() {

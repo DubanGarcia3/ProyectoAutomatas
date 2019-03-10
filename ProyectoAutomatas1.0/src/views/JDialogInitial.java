@@ -21,7 +21,7 @@ public class JDialogInitial extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lbTitleDialog;
-	private JButton btnDrawing;
+	private JButton btnImport;
 	private JButton btnTransitionFunctions;
 	
 	public JDialogInitial(JFrameMainWindow frameMainWindow) {
@@ -47,12 +47,12 @@ public class JDialogInitial extends JDialog {
 		panelbtns.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		panelbtns.setBackground(Color.WHITE);
 	
-		btnDrawing = new JButton("Dibujando");
-		btnDrawing.addActionListener(Controller.getInstance());
-		btnDrawing.setActionCommand(ActionCommand.SHOW_WINDOW_DRAWING.name());
-		btnDrawing.setFont(font);
-		btnDrawing.setBackground(Color.decode("#F5B29B"));
-//		panelbtns.add(btnDrawing);
+		btnImport = new JButton("Importando");
+		btnImport.addActionListener(Controller.getInstance());
+		btnImport.setActionCommand(ActionCommand.IMPORT_AUTOMATON.name());
+		btnImport.setFont(font);
+		btnImport.setBackground(Color.decode("#F5B29B"));
+		panelbtns.add(btnImport);
 		
 		btnTransitionFunctions = new JButton("Funciones de Transición");
 		btnTransitionFunctions.addActionListener(Controller.getInstance());
@@ -60,12 +60,7 @@ public class JDialogInitial extends JDialog {
 		btnTransitionFunctions.setFont(font);
 		btnTransitionFunctions.setBackground(Color.decode("#C19EB1"));
 		panelbtns.add(btnTransitionFunctions);
-		
-//		btnTransitionMatrix = new JButton("Matriz de transiciones");
-//		btnTransitionMatrix.addActionListener(Controller.getInstance());
-//		btnTransitionMatrix.setActionCommand(ActionCommand.SHOW_DIALOG_ADD_TRANSITION_TABLE.name());
-//		panelbtns.add(btnTransitionMatrix);
-		
+			
 		this.add(panelbtns);
 	}
 }

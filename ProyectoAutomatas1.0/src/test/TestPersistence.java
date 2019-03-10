@@ -67,12 +67,14 @@ public class TestPersistence {
 //				transitionlist, alphabeth);
 		Persistence persistence = new Persistence();
 		try {
-			persistence.writeJson(stateList, state0, stateFinalList, transitionlist, alphabeth);
-			System.out.println(persistence.loadStateList("data/automaton.json"));
-			System.out.println(persistence.loadInitialState("data/automaton.json"));
-			System.out.println(persistence.loadFinalStateList("data/automaton.json"));
-			System.out.println(persistence.loadTransitionlist("data/automaton.json"));
-			System.out.println(persistence.loadAlphabet("data/automaton.json"));
+			persistence.writeJson("automaton.json",stateList, state0, stateFinalList, transitionlist, alphabeth);
+			ArrayList< State> states = persistence.loadStateList("automaton.json");
+			System.out.println(states);
+			System.out.println(persistence.loadInitialState("automaton.json",states));
+			System.out.println(persistence.loadFinalStateList("automaton.json",states));
+			System.out.println(persistence.loadTransitionlist("automaton.json",states));
+			System.out.println(persistence.loadAlphabet("automaton.json"));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -28,7 +28,7 @@ public class Automaton {
 		this.finalStateList = finalState;
 		this.transitionList = transitionList;
 		this.alphabet = alphabet;
-		this.transitionTable= new String[stateList.size()][alphabet.size()];
+		this.transitionTable= generateTransitionsTable();
 	}
 	
 	public void loadAutomatonFromJSON(ArrayList<State> stateList, State initialState, ArrayList<State> finalState,
@@ -52,6 +52,7 @@ public class Automaton {
 			indexState = stateList.indexOf(transitionList.get(i).getFrom())+1;
 			indexSymbol = alphabet.indexOf(transitionList.get(i).getCharacter())+1;
 			transitionTable[indexState][indexSymbol] =  transitionList.get(i).getTo().getName();
+			System.out.println();
 		}
 		return transitionTable;
 	}
@@ -76,44 +77,7 @@ public class Automaton {
 		return transitionTable;
 	}
 
-	public void setHeadersTransitionTable(){
-		int count = 1;
-		for (State state : stateList) {
-			transitionTable[count][0] = state.getName();
-			count ++;
-		}
-		count = 1;
-		for (Character letter : alphabet) {
-			transitionTable[0][count] = ""+letter;
-			count ++;
-		}
-		for (Transition transition : transitionList) {
-			System.out.println("char ="+transition.getCharacter()+" "+transition.getTo().getName());
-			transitionTable[getIndexOfStateTable(transition.getFrom().getName())]
-					[getIndexOfCharTable(transition.getCharacter().toString())] = transition.getTo().getName();
-		}
-		printMatriz(transitionTable);
-	}
-
-	public int getIndexOfStateTable(String nameState){
-		for (int i = 1; i < transitionTable[0].length+1; i++) {
-			if (transitionTable[i][0].equalsIgnoreCase(nameState)) {
-				System.out.println(nameState);
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public int getIndexOfCharTable(String nameChar){
-		System.out.println(nameChar);
-		for (int i = 1; i < transitionTable.length; i++) {
-			if (transitionTable[0][i].equalsIgnoreCase(nameChar)) {
-				return i;
-			}
-		}
-		return -1;
-	}
+	
 
 	public void printMatriz(String[][] matrix){
 		for (int i = 0; i < matrix.length; i++) {
@@ -125,14 +89,7 @@ public class Automaton {
 		}
 	}
 
-	public void fillMatrixZeros(String[][] matrix){
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				matrix[i][j]="0";
-			}
-		}
-	}
-
+	
 	public ArrayList<State> getStateList() {
 		return stateList;
 	}
@@ -191,7 +148,6 @@ public class Automaton {
 
 	public void showMatrixTransitions() {
 		String[][]  strings = generateTransitionsTable();
-
 		for (int i = 0; i < strings.length; i++) {
 			for (int j = 0; j < strings[i].length; j++) {
 				System.out.print(strings[i][j]+" , ");
