@@ -51,14 +51,16 @@ public class JDialogInitial extends JDialog {
 		btnImport.addActionListener(Controller.getInstance());
 		btnImport.setActionCommand(ActionCommand.IMPORT_AUTOMATON.name());
 		btnImport.setFont(font);
-		btnImport.setBackground(Color.decode("#F5B29B"));
+		btnImport.setBackground(Color.decode("#E95420"));
+		btnImport.setForeground(Color.white);
 		panelbtns.add(btnImport);
 		
 		btnTransitionFunctions = new JButton("Funciones de Transición");
 		btnTransitionFunctions.addActionListener(Controller.getInstance());
 		btnTransitionFunctions.setActionCommand(ActionCommand.SHOW_DIALOG_ADD_TRANSITION_FUNCION.name());
 		btnTransitionFunctions.setFont(font);
-		btnTransitionFunctions.setBackground(Color.decode("#C19EB1"));
+		btnTransitionFunctions.setBackground(Color.decode("#77216F"));
+		btnTransitionFunctions.setForeground(Color.white);
 		panelbtns.add(btnTransitionFunctions);
 			
 		this.add(panelbtns);
