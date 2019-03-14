@@ -91,6 +91,7 @@ public class JFrameMainWindow extends JFrame{
 		btnAddNewAutomaton.setFont(ConstansFont.fontTitle1);
 		btnAddNewAutomaton.setForeground(Color.WHITE);
 		btnAddNewAutomaton.setBackground(Color.decode("#EB6536"));
+		btnAddNewAutomaton.setEnabled(false);
 		jToolBar.add(btnAddNewAutomaton);
 		
 		JButton btnEvaluateWord = new JButton("Validar Palabra");
