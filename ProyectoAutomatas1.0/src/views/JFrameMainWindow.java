@@ -82,6 +82,7 @@ public class JFrameMainWindow extends JFrame{
 		
 		JToolBar jToolBar = new JToolBar();
 		
+		//se deshabiliró el boton de nuevo automata 
 		jToolBar.setFloatable(false);
 		jToolBar.setBackground(Color.decode("#E3D2E2"));
 		jToolBar.setBorderPainted(false);
