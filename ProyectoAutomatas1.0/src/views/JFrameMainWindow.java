@@ -82,7 +82,7 @@ public class JFrameMainWindow extends JFrame{
 		
 		JToolBar jToolBar = new JToolBar();
 		
-		//se deshabiliró el boton de nuevo automata 
+		//se deshabilirÃ³ el boton de nuevo automata 
 		jToolBar.setFloatable(false);
 		jToolBar.setBackground(Color.decode("#E3D2E2"));
 		jToolBar.setBorderPainted(false);
@@ -134,10 +134,18 @@ public class JFrameMainWindow extends JFrame{
 		return jDialogDataAutomaton.getAutomaton();
 	}
 	
-	public void setAutomaton() {
-		JLabel label = new JLabel(new ImageIcon("grafo1.jpg"));
-		panelAutomatonDraw.add(label);
+	public void setAutomaton(String ruta) {
+		panelAutomatonDraw.removeAll();
 		revalidate();
+		repaint();
+		
+			ImageIcon icon = new ImageIcon(ruta);
+			JLabel label = new JLabel(icon);	
+			panelAutomatonDraw.add(label,BorderLayout.CENTER);
+			label.repaint();
+			label.revalidate();
+			panelCenter.add(panelAutomatonDraw,BorderLayout.CENTER);
+			revalidate();
 	}
 	
 	public DialogSplash getDialogSplash() {
