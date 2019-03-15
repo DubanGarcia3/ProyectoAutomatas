@@ -140,7 +140,6 @@ public class JFrameMainWindow extends JFrame{
 		revalidate();
 	}
 	
-	
 	public DialogSplash getDialogSplash() {
 		return dialogSplash;
 	}

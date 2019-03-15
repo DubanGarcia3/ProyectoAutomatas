@@ -1,7 +1,9 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,6 +35,7 @@ public class DialogSplash extends JDialog {
 		this.add(btimg);
 		this.setUndecorated(true);
 		this.setLocationRelativeTo(null);
+		this.getRootPane().setBorder( BorderFactory.createLineBorder(Color.decode("#CFB4C2")) );
 	}
 	
 	/**
