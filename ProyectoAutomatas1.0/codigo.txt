@@ -2,7 +2,7 @@ digraph finite_state_machine {
 	rankdir=LR;
 	size="8,5"
 	node [shape = doublecircle];
- a ;node [shape = circle];
- a 
-a -> a [ label =  "a" ];
+ 5 ;node [shape = circle];
+ 1  2  3  4  5 
+1 -> 1 [ label =  "a" ];
 }

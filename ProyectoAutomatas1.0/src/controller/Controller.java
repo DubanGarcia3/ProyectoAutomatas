@@ -94,7 +94,6 @@ public class Controller implements ActionListener{
 //			e.printStackTrace();
 		}
 		JOptionPane.showMessageDialog(jFrameMainWindow, "Automata guardado satisfactoriamente");
-		
 	}
 
 	private void importAutomaton() {

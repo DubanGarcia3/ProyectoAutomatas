@@ -392,7 +392,6 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		clearFuncions();
 		alphabet = getAlphabetList();
 		states = getStatesList();
-		jTextStateList.setFocusable(false);
 		DefaultComboBoxModel<State> boxModel = new DefaultComboBoxModel<State>(states);
 		jComboBoxInitialState.setEnabled(true);
 		jComboBoxInitialState.setModel(boxModel);
@@ -405,6 +404,24 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 
 	public void addPanelNewFuncion() {
 		createFuncionsTransition(alphabet, states);
+	}
+	
+	public void clear() {
+		clearFuncions();
+		alphabet = new Character[0];
+		states = new State[0];
+		jtextAlphabet.setText("");
+		jtextAlphabet.setEditable(true);
+		jTextStateList.setText("");
+		jTextStateList.setEditable(true);
+		DefaultComboBoxModel<State> boxModel = new DefaultComboBoxModel<State>();
+		jComboBoxInitialState.setModel(boxModel);
+		jComboBoxInitialState.setEnabled(false);
+		panelCheckBox.removeAll();
+		btnAddNewFuncion.setEnabled(false);
+		btnAddNewFuncion.setBackground(Color.gray);
+		btnAccept.setEnabled(false);
+		
 	}
 	
 }

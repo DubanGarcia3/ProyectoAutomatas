@@ -122,6 +122,7 @@ public class JFrameMainWindow extends JFrame{
 	}
 	
 	public void setVisibleJDialogDataAutomaton(boolean b) {
+		jDialogDataAutomaton.clear();
 		jDialogDataAutomaton.setVisible(b);
 	}
 
