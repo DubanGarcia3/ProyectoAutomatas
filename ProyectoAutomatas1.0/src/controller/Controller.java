@@ -24,6 +24,7 @@ public class Controller implements ActionListener{
 	public DrawingAutomaton drawingAutomaton = new DrawingAutomaton();
 	public Automaton automaton;
 	private Persistence persistence;
+	private int idAutomata = 1;
 	
 	private Controller() {
 		
@@ -43,7 +44,7 @@ public class Controller implements ActionListener{
 			showDialogAddTransitionFuncion();
 			break;
 		case SHOW_DIALOG_ADD_TRANSITION_TABLE:
-			//No se har· esta funcion
+			//No se har√° esta funcion
 			break;
 		case SHOW_WINDOW_DRAWING:
 			
@@ -147,8 +148,14 @@ public class Controller implements ActionListener{
 	}
 
 	private void updateAutomaton() {
+		if(idAutomata ==0){
+			idAutomata++;
+		}else{
+			idAutomata--;
+		}	
 		drawingAutomaton.createCodigoDrawing(automaton);
-		drawingAutomaton.generar("grafo1.jpg");
+		String ruta = "grafo"+idAutomata+".jpg";
+		drawingAutomaton.generar(ruta );
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -156,7 +163,7 @@ public class Controller implements ActionListener{
 			e.printStackTrace();
 		}
 		jFrameMainWindow.setVisible(true);
-		jFrameMainWindow.setAutomaton();
+		jFrameMainWindow.setAutomaton(ruta);
 		jFrameMainWindow.update(automaton.generateTransitionsTable());
 		jFrameMainWindow.setVisibleJDialogDataAutomaton(false);
 		jFrameMainWindow.setVisibleJDialogInitial(false);
