@@ -58,7 +58,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 		super(frameMainWindow);
 		this.setLayout(new BorderLayout());
 		this.setSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/11,
-				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/10)));
+				(int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-Toolkit.getDefaultToolkit().getScreenSize().getHeight()/15)));
 		this.setLocationRelativeTo(frameMainWindow);
 		this.setResizable(true);
 		this.setBackground(Color.WHITE);
@@ -326,6 +326,7 @@ public class JDialogDataAutomaton extends JDialog implements MouseListener{
 			if (box.isSelected()) {
 				states[i].setAccept(true);
 				statesAccepted.add(states[i]);
+				btnAccept.setBackground(Color.decode("#77216F"));
 			}
 		}
 		return statesAccepted;

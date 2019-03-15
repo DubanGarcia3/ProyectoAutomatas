@@ -156,8 +156,9 @@ public class Controller implements ActionListener{
 		drawingAutomaton.createCodigoDrawing(automaton);
 		String ruta = "grafo"+idAutomata+".jpg";
 		drawingAutomaton.generar(ruta );
+		
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
