@@ -5,4 +5,5 @@ digraph finite_state_machine {
  a ;node [shape = circle];
  a 
 a -> a [ label =  "a" ];
+a -> a [ label =  "a" ];
 }
